@@ -19,4 +19,7 @@ module MovieOrganizer
     dirs = ENV.fetch('MO_SOURCE_DIRS')
     dirs.split
   end
+
+  autoload :Logger,    'movie_organizer/logger'
+  autoload :Organizer, 'movie_organizer/organizer'
 end

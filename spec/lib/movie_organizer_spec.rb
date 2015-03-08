@@ -34,6 +34,7 @@ RSpec.describe MovieOrganizer, type: :module do
     end
 
     it 'returns an array' do
+      ENV['MO_SOURCE_DIRS'] = '/tmp /public'
       expect(MovieOrganizer.source_directories).to be_a(Array)
     end
   end

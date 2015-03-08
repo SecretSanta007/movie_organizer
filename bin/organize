@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+
+require 'movie_organizer'
+require 'movie_organizer/organizer'
+
+MovieOrganizer::Organizer.instance.start
