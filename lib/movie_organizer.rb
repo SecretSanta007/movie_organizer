@@ -14,4 +14,9 @@ module MovieOrganizer
   def self.current_environment
     ENV.fetch('APP_ENV', 'development')
   end
+
+  def self.source_directories
+    dirs = ENV.fetch('MO_SOURCE_DIRS')
+    dirs.split
+  end
 end

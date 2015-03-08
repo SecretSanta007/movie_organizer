@@ -22,6 +22,13 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'midwire_common', '~> 0.1'
   spec.add_development_dependency 'rspec', '~> 3.2'
+  spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'guard'
+  spec.add_development_dependency 'guard-rspec'
+  spec.add_development_dependency 'guard-bundler'
+  spec.add_development_dependency 'guard-rubocop'
+  spec.add_development_dependency 'terminal-notifier'
+  spec.add_development_dependency 'terminal-notifier-guard'
   spec.add_development_dependency 'pry', '~> 0.10'
   spec.add_development_dependency 'pry-nav', '~> 0.2'
 
