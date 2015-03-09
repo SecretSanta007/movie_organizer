@@ -24,13 +24,15 @@ shared_context 'media_shared' do
     File.join(tmpdir, filename)
   end
 
-  def create_test_file(extension, options = {})
-    tvshow = options.fetch(:tvshow, true)
-    count = options.fetch(:count, 1)
-    filename = options.fetch(:filename, false)
-    files = []
+  def create_test_file(options = {})
+    tvshow    = options.fetch(:tvshow, true)
+    count     = options.fetch(:count, 1)
+    filename  = options.fetch(:filename, false)
+    extension = options.fetch(:extension, 'mp4')
+    files     = []
+
     if filename
-      files = [File.join(tmpdir, filename)]
+      files = [File.join(tmpdir, "#{filename}.#{extension}")]
       File.open(files.last, 'w') { |f| f.write("Fake Media File\n") }
     else
       count.times do

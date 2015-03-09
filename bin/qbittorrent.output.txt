@@ -1,4 +1,0 @@
-path: [one]
-name: [two]
-path: [/Volumes/Orion/Tor/The.Walking.Dead.S05E03.720p.HDTV.x264-KILLERS.mkv]
-name: [The.Walking.Dead.S05E03.720p.HDTV.x264-KILLERS.mkv]

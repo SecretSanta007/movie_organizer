@@ -26,7 +26,6 @@ module MovieOrganizer
   def self.config_file
     home = ENV.fetch('HOME')
     file = ENV.fetch('MO_CONFIG_FILE', File.join(home, '.movie_organizer.yml'))
-    FileUtils.mkdir_p(File.dirname(file))
     FileUtils.touch(file)
     file
   end
@@ -34,6 +33,7 @@ module MovieOrganizer
   autoload :Logger,    'movie_organizer/logger'
   autoload :Media,     'movie_organizer/media'
   autoload :MediaList, 'movie_organizer/media_list'
+  autoload :Movie,     'movie_organizer/movie'
   autoload :Organizer, 'movie_organizer/organizer'
   autoload :Settings,  'movie_organizer/settings'
   autoload :TvShow,    'movie_organizer/tv_show'

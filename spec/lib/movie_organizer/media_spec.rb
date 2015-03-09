@@ -2,12 +2,20 @@ module MovieOrganizer
   RSpec.describe Media, type: :lib do
     include_context 'media_shared'
 
-    let(:files) { create_test_file('mkv', count: 1, tvshow: true) }
-    let(:filename) { files.first }
-
     context '.subtype' do
       it 'returns a TvShow' do
+        filename = create_test_file(
+          filename: 'The.Walking.Dead.S04E08.HDTV.x264-2HD',
+          extension: 'mp4'
+        ).first
         expect(Media.subtype(filename)).to be_a(TvShow)
+      end
+
+      it 'returns a Movie' do
+        filename = create_test_file(
+          filename: 'Beetlejuice', extension: 'mp4'
+        ).first
+        expect(Media.subtype(filename)).to be_a(Movie)
       end
     end
 

@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-THISDIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-echo "path: [$1]" >> $THISDIR/qbittorrent.output.txt
-echo "name: [$2]" >> $THISDIR/qbittorrent.output.txt

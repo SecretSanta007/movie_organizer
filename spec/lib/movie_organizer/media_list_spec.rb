@@ -7,7 +7,7 @@ module MovieOrganizer
     context '#new' do
       %w(m4v mov mkv mp4 avi).each do |extension|
         it "collects #{extension} files" do
-          create_test_file(extension, count: 3)
+          create_test_file(count: 3, extension: extension)
           expect(media_list.file_collection.count).to eq(3)
         end
       end

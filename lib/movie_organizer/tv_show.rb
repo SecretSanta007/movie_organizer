@@ -2,8 +2,6 @@ require 'titleize'
 
 module MovieOrganizer
   class TvShow < Media
-    attr_accessor :filename
-
     def initialize(filename)
       super
     end
@@ -27,10 +25,9 @@ module MovieOrganizer
       "#{title} - #{season_and_episode}#{ext}"
     end
 
-    private
-
-    def season_and_episode
-      @season_string ||= $1 if filename =~ /(s\d+e\d+)/i
+    # Typically everything that comes before the season and episode
+    def title
+      @title ||= sanitize($1) if basename =~ /^(.+)#{season_and_episode}/i
     end
 
     def season
@@ -38,13 +35,14 @@ module MovieOrganizer
       season_str.sub(/^S0*/i, '')
     end
 
-    def basename
-      File.basename(filename)
+    private
+
+    def season_and_episode
+      @season_string ||= $1 if filename =~ /(s\d+e\d+)/i
     end
 
-    # Typically everything that comes before the season and episode
-    def title
-      @title ||= sanitize($1) if basename =~ /^(.+)#{season_and_episode}/i
+    def basename
+      File.basename(filename)
     end
 
     def ext

@@ -13,6 +13,7 @@ module MovieOrganizer
     def self.subtype(filename)
       instance = new(filename)
       return TvShow.new(filename) if instance.tv_show?
+      Movie.new(filename)
     end
 
     def initialize(filename)
