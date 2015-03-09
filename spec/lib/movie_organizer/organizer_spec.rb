@@ -13,11 +13,11 @@ module MovieOrganizer
       end
     end
 
-    context '.start' do
-      it 'logs' do
-        expect(organizer.logger).to receive(:info)
-        organizer.start
-      end
-    end
+    # context '.start' do
+    #   it 'logs' do
+    #     expect(organizer.logger).to receive(:info)
+    #     organizer.start
+    #   end
+    # end
   end
 end

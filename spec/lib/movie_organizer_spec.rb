@@ -38,4 +38,14 @@ RSpec.describe MovieOrganizer, type: :module do
       expect(MovieOrganizer.source_directories).to be_a(Array)
     end
   end
+
+  context '#config_file' do
+    it 'returns the default config file' do
+      expect(MovieOrganizer.config_file).to match(/.movie_organizer.yml$/)
+    end
+
+    it 'ensures the file exists' do
+      expect(File.exist?(MovieOrganizer.config_file)).to eq(true)
+    end
+  end
 end
