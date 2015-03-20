@@ -68,7 +68,7 @@ module MovieOrganizer
     private
 
     def should_skip?
-      filename.match(/[\.\s]sample[\.\s]/)
+      filename.match(/[\.\s-]?sample[\.\s-]?/)
     end
 
     def episode_title

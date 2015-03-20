@@ -35,6 +35,16 @@ module MovieOrganizer
         end
       end
 
+      context 'sample-marvels.agents.of.s.h.i.e.l.d.s02e13.hdtv.x264-killers.mp4' do
+        it 'correctly processes the filename', focus:true do
+          filename = 'sample-marvels.agents.of.s.h.i.e.l.d.s02e13.hdtv.x264-killers.mp4'
+          tv_show = TvShow.new(filename, default_options)
+          expect(
+            tv_show.processed_filename
+          ).to eq(nil)
+        end
+      end
+
       context 'arrow.316.hdtv-lol.mp4' do
         it 'correctly processes the filename' do
           filename = 'arrow.316.hdtv-lol.mp4'
