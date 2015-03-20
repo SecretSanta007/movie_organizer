@@ -9,7 +9,7 @@ module MovieOrganizer
     def initialize(directories = MovieOrganizer.source_directories)
       @file_collection = []
       directories.each do |directory|
-        Dir["#{directory}/*"].each do |entry|
+        Dir["#{directory}/**/*"].each do |entry|
           file_collection << entry if media?(entry)
         end
       end

@@ -7,7 +7,7 @@ module MovieOrganizer
         filename: 'Foreign+Correspondent+(1940)+1080p', extension: 'mp4'
       ).first
     end
-    let(:movie) { Movie.new(filename) }
+    let(:movie) { Movie.new(filename, default_options) }
 
     context '#new' do
       it 'returns a child of the Media class' do
@@ -31,11 +31,19 @@ module MovieOrganizer
       end
     end
 
+    context '.year' do
+      it 'returns the year' do
+        expect(movie.year).to eq('1940')
+      end
+    end
+
     context '.process!' do
       it 'moves the file to the configured location' do
         settings = Settings.new
-        target_dir = File.join(settings[:movies][:directory], movie.title)
-        expect(FileUtils).to receive(:mkdir_p).with(target_dir).and_return(nil)
+        target_dir = File.join(
+          settings[:movies][:directory], "#{movie.title} (#{movie.year})"
+        )
+        expect(FileUtils).to receive(:mkdir_p).with(target_dir, noop: true).and_return(nil)
         expect(FileUtils).to receive(:move).and_return(nil)
         movie.process!
       end

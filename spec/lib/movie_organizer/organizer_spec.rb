@@ -26,10 +26,10 @@ module MovieOrganizer
         create_test_file(filename: 'Beetlejuice', extension: 'mp4')
       end
 
-      it 'does something' do
-        expect(organizer).to receive(:collect_args).and_return(args)
-        organizer.start
-      end
+      # it 'collects the arguments' do
+      #   expect(organizer).to receive(:collect_args).and_return(args)
+      #   organizer.start
+      # end
     end
   end
 end

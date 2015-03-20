@@ -38,4 +38,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'titleize', '~> 1.3'
   spec.add_runtime_dependency 'streamio-ffmpeg'
   spec.add_runtime_dependency 'trollop'
+  spec.add_runtime_dependency 'colored'
 end

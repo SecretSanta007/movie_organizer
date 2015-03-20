@@ -1,3 +1,4 @@
+require 'titleize'
 require 'streamio-ffmpeg'
 
 module MovieOrganizer
@@ -8,20 +9,28 @@ module MovieOrganizer
   # 2. a Movie
   # 3. a home video or other arbitrary video
   class Media
-    attr_accessor :filename
+    attr_accessor :filename, :options, :logger, :settings
 
-    def self.subtype(filename)
-      instance = new(filename)
-      return TvShow.new(filename) if instance.tv_show?
-      Movie.new(filename)
+    def self.subtype(filename, options)
+      instance = new(filename, options)
+      return TvShow.new(filename, options) if instance.tv_show?
+      Movie.new(filename, options)
     end
 
-    def initialize(filename)
+    def initialize(filename, options)
       @filename = filename
+      @options = options
+      @tv_show = nil
+      @logger = Logger.instance
+      @settings = Settings.new
     end
 
     def tv_show?
-      @tv_show ||= !filename.match(/S\d+E\d+/i).nil?
+      return @tv_show unless @tv_show.nil?
+      @tv_show = false
+      @tv_show = true unless filename.match(/S\d+E\d+/i).nil?
+      @tv_show = true unless filename.match(/\d+x\d+/i).nil?
+      @tv_show
     end
 
     def resolution
@@ -36,6 +45,24 @@ module MovieOrganizer
       return md.string.split('x').last.to_i unless md.nil?
 
       fail "Cannot determine resolution\n#{video.inspect}"
+    end
+
+    protected
+
+    def basename
+      File.basename(filename)
+    end
+
+    def ext
+      File.extname(filename)
+    end
+
+    def verbose?
+      options[:verbose]
+    end
+
+    def dry_run?
+      options[:dry_run]
     end
   end
 end

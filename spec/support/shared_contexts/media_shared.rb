@@ -3,6 +3,7 @@ require 'titleize'
 
 shared_context 'media_shared' do
   let(:tmpdir) { File.join(MovieOrganizer.root, 'tmp') }
+  let(:default_options) { { dry_run: true, verbose: true } }
 
   after(:each) do
     FileUtils.rm(Dir.glob("#{tmpdir}/*"))
