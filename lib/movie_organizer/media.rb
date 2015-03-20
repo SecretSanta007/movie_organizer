@@ -64,5 +64,21 @@ module MovieOrganizer
     def dry_run?
       options[:dry_run]
     end
+
+    def sanitize(str)
+      cleanstr = str.gsub(/-\s*-/, '')
+      cleanstr = cleanstr.gsub(/\[?1080p\]?/, '').strip
+      cleanstr = cleanstr.gsub(/\[?720p\]?/, '').strip
+      cleanstr = cleanstr.gsub(/EXTENDED/, '').strip
+      cleanstr = cleanstr.gsub(/YIFY/, '').strip
+      cleanstr = cleanstr.gsub(/BluRay/i, '').strip
+      cleanstr = cleanstr.gsub(/HDTV/i, '').strip
+      cleanstr = cleanstr.gsub(/x264/, '').strip
+      cleanstr = cleanstr.gsub(/-lol/i, '').strip
+      cleanstr = cleanstr.gsub(/[\.\s]us[\.\s]/i, '').strip
+      cleanstr = cleanstr.gsub(/\s\s+/, ' ').strip
+      cleanstr = cleanstr.gsub(/-\s*/, '').strip
+      cleanstr.gsub(/[\.\+]/, ' ').strip
+    end
   end
 end

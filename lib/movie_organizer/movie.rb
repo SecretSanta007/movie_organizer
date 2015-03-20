@@ -40,26 +40,5 @@ module MovieOrganizer
       md = basename.match(/\((\d\d\d\d)\)|(19\d\d)|(20\d\d)/)
       md ? md.captures.compact.first : nil
     end
-
-    private
-
-    def basename
-      File.basename(filename)
-    end
-
-    def ext
-      File.extname(filename)
-    end
-
-    def sanitize(str)
-      newstr = str.gsub(/\[?1080p\]?/, '').strip
-      newstr = newstr.gsub(/\[?720p\]?/, '').strip
-      newstr = newstr.gsub(/EXTENDED/, '').strip
-      newstr = newstr.gsub(/YIFY/, '').strip
-      newstr = newstr.gsub(/BluRay/, '').strip
-      newstr = newstr.gsub(/x264/, '').strip
-      newstr = newstr.gsub(/\s\s+/, ' ').strip
-      newstr.gsub(/[\.\+]/, ' ').strip
-    end
   end
 end
