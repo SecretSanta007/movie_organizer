@@ -26,7 +26,7 @@ module MovieOrganizer
       FileUtils.mkdir_p(target_dir, noop: dry_run?)
       target_file = File.join(target_dir, processed_filename)
       logger.info("    target dir: [#{target_dir}]")
-      logger.info("    target file: [#{target_file}]")
+      logger.info("    target file: [#{target_file.green.bold}]")
       FileUtils.move(
         filename,
         target_file,
@@ -40,7 +40,7 @@ module MovieOrganizer
     # @return [String] cleaned filename
     def processed_filename
       return nil if should_skip?
-      if episode_title
+      if options[:preserve_episode] && episode_title
         "#{title} - #{season_and_episode} - #{episode_title}#{ext}"
       else
         "#{title} - #{season_and_episode}#{ext}"

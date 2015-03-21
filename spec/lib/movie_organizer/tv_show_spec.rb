@@ -36,7 +36,7 @@ module MovieOrganizer
       end
 
       context 'sample-marvels.agents.of.s.h.i.e.l.d.s02e13.hdtv.x264-killers.mp4' do
-        it 'correctly processes the filename', focus:true do
+        it 'correctly processes the filename' do
           filename = 'sample-marvels.agents.of.s.h.i.e.l.d.s02e13.hdtv.x264-killers.mp4'
           tv_show = TvShow.new(filename, default_options)
           expect(
@@ -56,12 +56,27 @@ module MovieOrganizer
       end
 
       context 'Star Trek - 1x01 - The Man Trap.mp4' do
-        it 'correctly processes the filename' do
-          filename = 'Star Trek - 1x01 - The Man Trap.mp4'
-          tv_show = TvShow.new(filename, default_options)
-          expect(
-            tv_show.processed_filename
-          ).to eq('Star Trek - S01E01 - The Man Trap.mp4')
+        context 'preserve_episode is true' do
+          it 'correctly processes the filename' do
+            filename = 'Star Trek - 1x01 - The Man Trap.mp4'
+            tv_show = TvShow.new(
+              filename,
+              default_options.merge(preserve_episode: true)
+            )
+            expect(
+              tv_show.processed_filename
+            ).to eq('Star Trek - S01E01 - The Man Trap.mp4')
+          end
+        end
+
+        context 'preserve_episode is false' do
+          it 'correctly processes the filename' do
+            filename = 'Star Trek - 1x01 - The Man Trap.mp4'
+            tv_show = TvShow.new(filename, default_options)
+            expect(
+              tv_show.processed_filename
+            ).to eq('Star Trek - S01E01.mp4')
+          end
         end
       end
 

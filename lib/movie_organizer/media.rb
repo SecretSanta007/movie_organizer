@@ -47,6 +47,11 @@ module MovieOrganizer
       fail "Cannot determine resolution\n#{video.inspect}"
     end
 
+    def year
+      md = basename.match(/\((\d\d\d\d)\)|(19\d\d)|(20\d\d)/)
+      md ? md.captures.compact.first : nil
+    end
+
     protected
 
     def basename
@@ -72,12 +77,13 @@ module MovieOrganizer
       cleanstr = cleanstr.gsub(/EXTENDED/, '').strip
       cleanstr = cleanstr.gsub(/YIFY/, '').strip
       cleanstr = cleanstr.gsub(/BluRay/i, '').strip
+      cleanstr = cleanstr.gsub(/ECI/i, '').strip
       cleanstr = cleanstr.gsub(/HDTV/i, '').strip
       cleanstr = cleanstr.gsub(/x264/, '').strip
       cleanstr = cleanstr.gsub(/-lol/i, '').strip
       cleanstr = cleanstr.gsub(/[\.\s-]us[\.\s-]/i, '').strip
-      cleanstr = cleanstr.gsub(/\s\s+/, ' ').strip
       cleanstr = cleanstr.gsub(/-\s*/, '').strip
+      cleanstr = cleanstr.gsub(/\s\s+/, ' ').strip
       cleanstr.gsub(/[\.\+]/, ' ').strip
     end
   end

@@ -16,7 +16,7 @@ module MovieOrganizer
         processed_filename
       )
       logger.info("    target dir: [#{target_dir}]")
-      logger.info("    target file: [#{target_file}]")
+      logger.info("    target file: [#{target_file.green.bold}]")
       FileUtils.move(
         filename,
         target_file,
@@ -34,11 +34,6 @@ module MovieOrganizer
         basename.sub(/#{ext_regex}$/, '').sub(/\(?#{year}\)?/, '')
       )
       @title ||= "#{newbase}"
-    end
-
-    def year
-      md = basename.match(/\((\d\d\d\d)\)|(19\d\d)|(20\d\d)/)
-      md ? md.captures.compact.first : nil
     end
   end
 end

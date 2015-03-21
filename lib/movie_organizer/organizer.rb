@@ -52,6 +52,11 @@ module MovieOrganizer
           type: :boolean, required: false, short: '-d',
           default: false)
         opt(
+          :preserve_episode,
+          'Preserve episode names if they exist (experimental)',
+          type: :boolean, required: false, short: '-p',
+          default: false)
+        opt(
           :verbose,
           'Be verbose with output',
           type: :boolean, required: false, short: '-v',
