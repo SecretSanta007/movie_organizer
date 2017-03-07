@@ -18,7 +18,7 @@ module MovieOrganizer
     def start
       start_time = Time.now
       @options = collect_args
-      logger.info('Starting...')
+      logger.info('Starting MovieOrganizer...'.green)
       count = 0
 
       # Enumerate all of the new source media
@@ -34,7 +34,7 @@ module MovieOrganizer
         count += 1
       end
       elapsed = Time.now - start_time
-      logger.info("Processed #{count} vidoes in [#{elapsed}] seconds.")
+      logger.info("Processed #{count} vidoes in [#{elapsed}] seconds.".yellow)
     end
 
     private
@@ -52,7 +52,7 @@ module MovieOrganizer
           type: :boolean, required: false, short: '-d',
           default: false)
         opt(
-          :preserve_episode,
+          :preserve_episode_name,
           'Preserve episode names if they exist (experimental)',
           type: :boolean, required: false, short: '-p',
           default: false)
@@ -65,9 +65,3 @@ module MovieOrganizer
     end
   end
 end
-
-# Configure TV Shows
-# The Walking Dead
-# Spaces can be periods
-# Configure Season and Episode naming
-# Move TV Shows into their proper 'season' directory

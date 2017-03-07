@@ -2,12 +2,12 @@ require 'titleize'
 require 'streamio-ffmpeg'
 
 module MovieOrganizer
-  # This meta-class factory should accept the media filename, and from that
-  # determine if it is likely to be:
+  # This meta-class factory accepts the media filename, and from that
+  # determines if it is likely to be:
   #
   # 1. a TV show
   # 2. a Movie
-  # 3. a home video or other arbitrary video
+  # 3. a home video or other type
   class Media
     attr_accessor :filename, :options, :logger, :settings
 
@@ -74,14 +74,17 @@ module MovieOrganizer
       cleanstr = str.gsub(/-\s*-/, '')
       cleanstr = cleanstr.gsub(/\[?1080p\]?/, '').strip
       cleanstr = cleanstr.gsub(/\[?720p\]?/, '').strip
+      cleanstr = cleanstr.gsub(/\[[^\]]+\]/, '').strip
       cleanstr = cleanstr.gsub(/EXTENDED/, '').strip
       cleanstr = cleanstr.gsub(/YIFY/, '').strip
+      cleanstr = cleanstr.gsub(/VPPV/, '').strip
       cleanstr = cleanstr.gsub(/BluRay/i, '').strip
+      cleanstr = cleanstr.gsub(/BrRip/i, '').strip
       cleanstr = cleanstr.gsub(/ECI/i, '').strip
       cleanstr = cleanstr.gsub(/HDTV/i, '').strip
       cleanstr = cleanstr.gsub(/x264/, '').strip
       cleanstr = cleanstr.gsub(/-lol/i, '').strip
-      cleanstr = cleanstr.gsub(/[\.\s-]us[\.\s-]/i, '').strip
+      # cleanstr = cleanstr.gsub(/[\.\s-]us[\.\s-]/i, ' ').strip
       cleanstr = cleanstr.gsub(/-\s*/, '').strip
       cleanstr = cleanstr.gsub(/\s\s+/, ' ').strip
       cleanstr.gsub(/[\.\+]/, ' ').strip

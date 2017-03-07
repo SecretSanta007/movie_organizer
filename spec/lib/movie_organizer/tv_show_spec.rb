@@ -25,77 +25,36 @@ module MovieOrganizer
     end
 
     context '.processed_filename' do
-      context 'The.Walking.Dead.S05E02.720p.HDTV.x264-KILLERS.mp4' do
-        it 'correctly processes the filename' do
-          filename = 'The.Walking.Dead.S05E02.720p.HDTV.x264-KILLERS.mp4'
-          tv_show = TvShow.new(filename, default_options)
-          expect(
-            tv_show.processed_filename
-          ).to eq('The Walking Dead - S05E02.mp4')
-        end
-      end
+      file = File.join(MovieOrganizer.root, 'spec/support/filename_mappings.yml')
 
-      context 'sample-marvels.agents.of.s.h.i.e.l.d.s02e13.hdtv.x264-killers.mp4' do
-        it 'correctly processes the filename' do
-          filename = 'sample-marvels.agents.of.s.h.i.e.l.d.s02e13.hdtv.x264-killers.mp4'
-          tv_show = TvShow.new(filename, default_options)
-          expect(
-            tv_show.processed_filename
-          ).to eq(nil)
-        end
-      end
-
-      context 'arrow.316.hdtv-lol.mp4' do
-        it 'correctly processes the filename' do
-          filename = 'arrow.316.hdtv-lol.mp4'
-          tv_show = TvShow.new(filename, default_options)
-          expect(
-            tv_show.processed_filename
-          ).to eq('Arrow - S03E16.mp4')
-        end
-      end
-
-      context 'Star Trek - 1x01 - The Man Trap.mp4' do
-        context 'preserve_episode is true' do
-          it 'correctly processes the filename' do
-            filename = 'Star Trek - 1x01 - The Man Trap.mp4'
+      context 'correctly maps the following with preserve_episode_name == false' do
+        mapped = YAML.load_file(file)['tvshows_no_preserve']
+        mapped.each do |from, to|
+          it "maps '#{from}' to [#{to}]" do
             tv_show = TvShow.new(
-              filename,
-              default_options.merge(preserve_episode: true)
+              from,
+              default_options.merge(preserve_episode_name: false)
             )
             expect(
               tv_show.processed_filename
-            ).to eq('Star Trek - S01E01 - The Man Trap.mp4')
+            ).to eq(to)
           end
         end
+      end
 
-        context 'preserve_episode is false' do
-          it 'correctly processes the filename' do
-            filename = 'Star Trek - 1x01 - The Man Trap.mp4'
-            tv_show = TvShow.new(filename, default_options)
+      context 'correctly maps the following with preserve_episode_name == true' do
+        mapped = YAML.load_file(file)['tvshows_preserve']
+        mapped.each do |from, to|
+          it "maps '#{from}' to [#{to}]" do
+            tv_show = TvShow.new(
+              from,
+              default_options.merge(preserve_episode_name: true)
+            )
             expect(
               tv_show.processed_filename
-            ).to eq('Star Trek - S01E01.mp4')
+            ).to eq(to)
           end
         end
-      end
-
-      context 'the.flash.2014.115.hdtv-lol.mp4' do
-        it 'correctly processes the filename' do
-          filename = 'the.flash.2014.115.hdtv-lol.mp4'
-          tv_show = TvShow.new(filename, default_options)
-          expect(
-            tv_show.processed_filename
-          ).to eq('The Flash 2014 - S01E15.mp4')
-        end
-      end
-
-      it 'ignores sample files' do
-        filename = 'arrow.316.hdtv-lol.sample.mp4'
-        tv_show = TvShow.new(filename, default_options)
-        expect(
-          tv_show.processed_filename
-        ).to eq(nil)
       end
     end
 

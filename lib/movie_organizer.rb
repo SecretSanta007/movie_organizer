@@ -1,6 +1,7 @@
 # Create a .test.env and a .development.env for your different local
 # environments
 require 'dotenv'
+require 'colored'
 paths = %W(.env .env.#{ENV['APP_ENV']}).map { |name| "#{Dir.pwd}/#{name}" }
 Dotenv.load(*paths).each { |k, v| ENV[k] = v }
 
@@ -21,9 +22,10 @@ module MovieOrganizer
     dirs.split
   end
 
-  # If you don't have a HOME directory defined, you are on an OS that is
-  # retarded, and this call will fail.
   def self.config_file
+    if current_environment == 'test'
+      return root.join('spec', 'fixtures', '.movie_organizer.yml')
+    end
     home = ENV.fetch('HOME')
     file = ENV.fetch('MO_CONFIG_FILE', File.join(home, '.movie_organizer.yml'))
     FileUtils.touch(file)

@@ -1,0 +1,22 @@
+---
+:eztv_host: https://eztv.ag/
+:space_warning: 20GB
+:tv_shows:
+  :directory: "/Volumes/Genesis/TV Series"
+  :my_shows:
+  - Arrow
+  - Fear the Walking Dead
+  - Last Man Standing
+  - Limitless
+  - Marvels Agents of S.H.I.E.L.D.
+  - Marvels Agent Carter
+  - Marvels Daredevil
+  - Sherlock
+  - Star Trek
+  - The Flash 2014
+  - The Last Ship
+  - The Walking Dead
+  - Vikings
+  - The Blacklist
+:movies:
+  :directory: "/Volumes/Qo'noS/Media/- Feature Films 3"

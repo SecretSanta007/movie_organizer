@@ -40,7 +40,7 @@ module MovieOrganizer
     # @return [String] cleaned filename
     def processed_filename
       return nil if should_skip?
-      if options[:preserve_episode] && episode_title
+      if options[:preserve_episode_name] && episode_title
         "#{title} - #{season_and_episode} - #{episode_title}#{ext}"
       else
         "#{title} - #{season_and_episode}#{ext}"
@@ -50,13 +50,15 @@ module MovieOrganizer
     def title
       return @title unless @title.nil?
       settings[:tv_shows][:my_shows].each do |show|
-        md = sanitize(basename).match(Regexp.new(show, Regexp::IGNORECASE))
+        md = sanitize(basename).match(
+          Regexp.new(sanitize(show), Regexp::IGNORECASE)
+        )
         if md
           @title = md[0].titleize
-          break
+          return @title
         end
       end
-      @title
+      # show is not configured if we reach this point
     end
 
     def season
@@ -81,9 +83,9 @@ module MovieOrganizer
 
     def season_and_episode
       return @season_and_episode unless @season_and_episode.nil?
+      clean_basename = sanitize(basename)
+      s_and_e_info = clean_basename.sub(Regexp.new(title, Regexp::IGNORECASE), '')
       S_E_EXPRESSIONS.each do |regex|
-        clean_basename = sanitize(basename)
-        s_and_e_info = clean_basename.sub(Regexp.new(title, Regexp::IGNORECASE), '')
         md = s_and_e_info.match(regex)
         if md
           @season = md[2].rjust(2, '0')
