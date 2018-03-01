@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'net/scp'
+require 'net/ssh'
+
 module MovieOrganizer
   class Movie < Media
     def initialize(filename, options)
@@ -19,11 +22,8 @@ module MovieOrganizer
       )
       logger.info("    target dir: [#{target_dir}]")
       logger.info("    target file: [#{target_file.green.bold}]")
-      FileUtils.move(
-        filename,
-        target_file,
-        force: true, noop: dry_run?
-      )
+      fc = FileCopier.new(filename, target_file, options)
+      fc.copy
     end
 
     def processed_filename
