@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# rubocop:disable Metrics/BlockLength
 module MovieOrganizer
   RSpec.describe MediaList, type: :lib do
     include_context 'media_shared'
@@ -5,8 +8,8 @@ module MovieOrganizer
     let(:media_list) { MediaList.new([tmpdir]) }
 
     context '#new' do
-      %w(m4v mov mkv mp4 avi).each do |extension|
-        it "collects #{extension} files" do
+      %w[m4v mov mkv mp4 avi].each do |extension|
+        it "includes #{extension} files" do
           create_test_file(count: 3, extension: extension)
           expect(media_list.file_collection.count).to eq(3)
         end
@@ -43,3 +46,4 @@ module MovieOrganizer
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

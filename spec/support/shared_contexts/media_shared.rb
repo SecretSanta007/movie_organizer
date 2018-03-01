@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'faker'
 require 'titleize'
 
+# rubocop:disable Metrics/BlockLength
 shared_context 'media_shared' do
   let(:tmpdir) { File.join(MovieOrganizer.root, 'tmp') }
   let(:default_options) { { dry_run: true, verbose: true } }
@@ -44,3 +47,4 @@ shared_context 'media_shared' do
     files
   end
 end
+# rubocop:enable Metrics/BlockLength

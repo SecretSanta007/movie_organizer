@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MovieOrganizer
   class Movie < Media
     def initialize(filename, options)

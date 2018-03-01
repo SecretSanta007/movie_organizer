@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# rubocop:disable Metrics/BlockLength
 module MovieOrganizer
   RSpec.describe TvShow, type: :lib do
     include_context 'media_shared'
@@ -25,7 +28,7 @@ module MovieOrganizer
     end
 
     context '.processed_filename' do
-      file = File.join(MovieOrganizer.root, 'spec/support/filename_mappings.yml')
+      file = File.join(MovieOrganizer.root, 'spec', 'support', 'filename_mappings.yml')
 
       context 'correctly maps the following with preserve_episode_name == false' do
         mapped = YAML.load_file(file)['tvshows_no_preserve']
@@ -61,6 +64,7 @@ module MovieOrganizer
     context '.process!' do
       it 'moves the file to the configured location' do
         settings = Settings.new
+        binding.pry if settings.nil?
         target_dir = File.join(
           settings[:tv_shows][:directory],
           tv_show.title,
@@ -73,3 +77,4 @@ module MovieOrganizer
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

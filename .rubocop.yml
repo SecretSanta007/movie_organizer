@@ -15,6 +15,7 @@ AllCops:
   Exclude:
     - 'vendor/**/*'
     - 'stubs/**/*'
+    - 'spec/support/shared_contexts/*'
 
 # Checks formatting of special comments
 CommentAnnotation:

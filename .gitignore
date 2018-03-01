@@ -12,5 +12,7 @@
 *.o
 *.a
 mkmf.log
-.env
-.env.test
+.env*
+/stubs
+/vendor
+/spec/.DS_Store

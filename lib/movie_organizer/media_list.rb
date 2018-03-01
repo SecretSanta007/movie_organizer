@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'mime/types'
 
 module MovieOrganizer
   class MediaList
     attr_accessor :file_collection
 
-    # Walk the directory trees of 'directories', finding all pertinent media
-    # files
+    # Walk the source_directories finding all pertinent media files
     def initialize(directories = MovieOrganizer.source_directories)
       @file_collection = []
       directories.each do |directory|

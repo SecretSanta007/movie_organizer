@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'titleize'
 require 'streamio-ffmpeg'
+require 'themoviedb'
 
 module MovieOrganizer
   # This meta-class factory accepts the media filename, and from that
@@ -14,7 +17,8 @@ module MovieOrganizer
     def self.subtype(filename, options)
       instance = new(filename, options)
       return TvShow.new(filename, options) if instance.tv_show?
-      Movie.new(filename, options)
+      return Movie.new(filename, options) if instance.movie?
+      Video.new(filename, options)
     end
 
     def initialize(filename, options)
@@ -33,18 +37,14 @@ module MovieOrganizer
       @tv_show
     end
 
-    def resolution
-      video = FFMPEG::Movie.new(filename)
-
-      # first check the resolution field
-      md = video.resolution.match(/^\d+x\d+$/)
-      return md.string.split('x').last.to_i unless md.nil?
-
-      # next check video stream
-      md = video.video_stream.match(/\d\d\d+x\d\d\d+/)
-      return md.string.split('x').last.to_i unless md.nil?
-
-      fail "Cannot determine resolution\n#{video.inspect}"
+    def movie?
+      return @movie unless @movie.nil?
+      @movie = false
+      Tmdb::Api.key('87f474201b7c4450f69d0c367c4c0327')
+      title = sanitize(File.basename(filename, ext)).gsub(/\d\d\d\d/, '').strip
+      matches = Tmdb::Movie.find(title)
+      @movie = matches.any?
+      @movie
     end
 
     def year
@@ -70,6 +70,7 @@ module MovieOrganizer
       options[:dry_run]
     end
 
+    # rubocop:disable Metrics/AbcSize
     def sanitize(str)
       cleanstr = str.gsub(/-\s*-/, '')
       cleanstr = cleanstr.gsub(/\[?1080p\]?/, '').strip
@@ -89,5 +90,6 @@ module MovieOrganizer
       cleanstr = cleanstr.gsub(/\s\s+/, ' ').strip
       cleanstr.gsub(/[\.\+]/, ' ').strip
     end
+    # rubocop:enable Metrics/AbcSize
   end
 end

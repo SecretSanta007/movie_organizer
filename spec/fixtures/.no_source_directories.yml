@@ -4,16 +4,12 @@
 :tv_shows:
   :directory: "/Volumes/Genesis/TV Series"
   :my_shows:
-  - Arrow
   - Fear the Walking Dead
   - Last Man Standing
   - Star Trek
-  - The Flash 2014
   - The Last Ship
   - The Walking Dead
   - Vikings
   - The Blacklist
 :movies:
-  :directory: "/Volumes/Huckleberry/Media/- Feature Films 3"
-:new_media_directories:
-- "/Users/djohnson/Downloads"
+  :directory: "/Volumes/Qo'noS/Media/- Feature Films 3"

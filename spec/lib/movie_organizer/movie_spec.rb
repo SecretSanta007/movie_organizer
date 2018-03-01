@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# rubocop:disable Metrics/BlockLength
 module MovieOrganizer
   RSpec.describe Movie, type: :lib do
     include_context 'media_shared'
@@ -50,3 +53,4 @@ module MovieOrganizer
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

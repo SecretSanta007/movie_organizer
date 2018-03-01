@@ -2,6 +2,12 @@
 
 TODO: Write a gem description
 
+## The Movie Database
+
+We are profoundly pleased to have access to [The Movie Database](https://www.themoviedb.org) API.
+
+"This product uses the TMDb API but is not endorsed or certified by TMDb."
+
 ## Installation
 
 Add this line to your application's Gemfile:

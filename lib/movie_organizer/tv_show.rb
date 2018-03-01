@@ -50,15 +50,13 @@ module MovieOrganizer
     def title
       return @title unless @title.nil?
       settings[:tv_shows][:my_shows].each do |show|
-        md = sanitize(basename).match(
-          Regexp.new(sanitize(show), Regexp::IGNORECASE)
-        )
+        md = sanitize(basename).match(Regexp.new(sanitize(show), Regexp::IGNORECASE))
         if md
           @title = md[0].titleize
           return @title
         end
       end
-      # show is not configured if we reach this point
+      @title
     end
 
     def season
@@ -75,9 +73,8 @@ module MovieOrganizer
 
     def episode_title
       return @episode_title unless @episode_title.nil?
-      if basename =~ /([^-]+)-([^-]+)-([^-]+)/
-        @episode_title = $3.sub(/#{ext}$/, '').strip
-      end
+      md = basename.match(/([^-]+)-([^-]+)-([^-]+)/)
+      @episode_title = md[3].sub(/#{ext}$/, '').strip if md
       @episode_title
     end
 
@@ -87,12 +84,11 @@ module MovieOrganizer
       s_and_e_info = clean_basename.sub(Regexp.new(title, Regexp::IGNORECASE), '')
       S_E_EXPRESSIONS.each do |regex|
         md = s_and_e_info.match(regex)
-        if md
-          @season = md[2].rjust(2, '0')
-          @episode = md[3].rjust(2, '0')
-          @season_and_episode = "S#{@season}E#{@episode}"
-          return @season_and_episode
-        end
+        next unless md
+        @season = md[2].rjust(2, '0')
+        @episode = md[3].rjust(2, '0')
+        @season_and_episode = "S#{@season}E#{@episode}"
+        return @season_and_episode
       end
       @season_and_episode
     end

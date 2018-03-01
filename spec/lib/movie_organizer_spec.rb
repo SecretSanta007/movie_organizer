@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe MovieOrganizer, type: :module do
   context '#root' do
     it 'returns a Pathname instance' do
@@ -14,6 +17,14 @@ RSpec.describe MovieOrganizer, type: :module do
   end
 
   context '#current_environment' do
+    before do
+      @original_env = ENV['APP_ENV']
+    end
+
+    after do
+      ENV['APP_ENV'] = @original_env
+    end
+
     it "defaults to 'development'" do
       ENV.delete('APP_ENV')
       expect(MovieOrganizer.current_environment).to eq('development')
@@ -25,23 +36,9 @@ RSpec.describe MovieOrganizer, type: :module do
     end
   end
 
-  context '#source_directories' do
-    it 'raises an error if not configured' do
-      ENV['MO_SOURCE_DIRS'] = nil
-      expect do
-        MovieOrganizer.source_directories
-      end.to raise_error(KeyError)
-    end
-
-    it 'returns an array' do
-      ENV['MO_SOURCE_DIRS'] = '/tmp /public'
-      expect(MovieOrganizer.source_directories).to be_a(Array)
-    end
-  end
-
   context '#config_file' do
     it 'returns the default config file' do
-      expect(MovieOrganizer.config_file).to match(/.movie_organizer.yml$/)
+      expect(MovieOrganizer.config_file.to_s).to match(/.movie_organizer.yml$/)
     end
 
     it 'ensures the file exists' do
@@ -49,3 +46,4 @@ RSpec.describe MovieOrganizer, type: :module do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
