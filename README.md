@@ -74,8 +74,4 @@ Options:
 
 ### The Movie Database
 
-<img src="tmdb-logo-primary-green.svg" alt="TMDB Logo" style="width: 50px; float:left; padding: 0 10px 0 0;"/>
-
-We are profoundly pleased to have access to [The Movie Database](https://www.themoviedb.org) API.
-
-This product uses the TMDb API but is not endorsed or certified by TMDb.
+<img src="tmdb-logo-primary-green.png" alt="TMDB Logo" style="float:left; padding: 0 10px 0 0;"/> We are profoundly pleased to have access to [The Movie Database](https://www.themoviedb.org) API. This product uses the TMDb API but is not endorsed or certified by TMDb.
