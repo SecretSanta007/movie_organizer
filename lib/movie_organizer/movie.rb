@@ -35,7 +35,7 @@ module MovieOrganizer
       newbase = sanitize(
         basename.sub(/#{ext_regex}$/, '').sub(/\(?#{year}\)?/, '')
       )
-      @title ||= "#{newbase}"
+      @title ||= newbase
     end
   end
 end

@@ -40,7 +40,7 @@ module MovieOrganizer
     def movie?
       return @movie unless @movie.nil?
       @movie = false
-      Tmdb::Api.key(settings[:movie][:tmdb_key])
+      Tmdb::Api.key(settings[:movies][:tmdb_key])
       title = sanitize(File.basename(filename, ext)).gsub(/\d\d\d\d/, '').strip
       matches = Tmdb::Movie.find(title)
       @movie = matches.any?
