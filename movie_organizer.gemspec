@@ -36,6 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'fileutils'
   spec.add_runtime_dependency 'mime-types'
   spec.add_runtime_dependency 'net-scp', '~> 1.2'
+  spec.add_runtime_dependency 'themoviedb', '~> 1.0'
   spec.add_runtime_dependency 'titleize', '~> 1.3'
   spec.add_runtime_dependency 'trollop'
 end
