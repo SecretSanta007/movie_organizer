@@ -2,12 +2,8 @@
 
 # Create a .test.env and a .development.env for your different local
 # environments
-require 'dotenv'
 require 'colored'
 require 'readline'
-
-paths = %W(.env .env.#{ENV['APP_ENV']}).map { |name| "#{Dir.pwd}/#{name}" }
-Dotenv.load(*paths).each { |k, v| ENV[k] = v }
 
 require 'movie_organizer/version'
 require 'midwire_common/string'
