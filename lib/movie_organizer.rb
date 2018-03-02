@@ -4,6 +4,7 @@
 # environments
 require 'colored'
 require 'readline'
+require 'fileutils'
 
 require 'movie_organizer/version'
 
