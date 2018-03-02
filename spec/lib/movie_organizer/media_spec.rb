@@ -32,6 +32,7 @@ module MovieOrganizer
 
       movies.each do |filename|
         it "returns a Movie for '#{filename}'" do
+          expect(Tmdb::Movie).to receive(:find).at_least(1).times.and_return([1])
           filename = create_test_file(
             filename: filename
           ).first
@@ -50,6 +51,7 @@ module MovieOrganizer
 
       videos.each do |filename|
         it "returns a Video for '#{filename}'" do
+          expect(Tmdb::Movie).to receive(:find).at_least(1).times.and_return([])
           filename = create_test_file(
             filename: filename
           ).first

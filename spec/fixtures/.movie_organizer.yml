@@ -14,6 +14,6 @@
   - Vikings
   - The Blacklist
 :movies:
-  :directory: "/Volumes/Huckleberry/Media/- Feature Films 3"
+  :directory: "/Users/cblackburn/Code/ruby/Gems/movie_organizer/tmp/files/movies"
 :new_media_directories:
 - "/Users/djohnson/Downloads"

@@ -43,12 +43,10 @@ module MovieOrganizer
     context '.process!' do
       it 'moves the file to the configured location' do
         settings = Settings.new
-        target_dir = File.join(
-          settings[:movies][:directory], "#{movie.title} (#{movie.year})"
-        )
-        expect(FileUtils).to receive(:mkdir_p).with(target_dir, noop: true).and_return(nil)
-        expect(FileUtils).to receive(:move).and_return(nil)
+        settings[:movies][:directory] = MovieOrganizer.root.join('tmp', 'files', 'movies').to_s
+        settings.save
         movie.process!
+        expect(File.exist?(filename)).to eq(true)
       end
     end
   end

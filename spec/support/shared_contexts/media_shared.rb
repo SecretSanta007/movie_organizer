@@ -9,7 +9,7 @@ shared_context 'media_shared' do
   let(:default_options) { { dry_run: true, verbose: true } }
 
   after(:each) do
-    FileUtils.rm(Dir.glob("#{tmpdir}/*"))
+    FileUtils.rm_rf(Dir.glob("#{tmpdir}/*"))
   end
 
   def random_season_episode_string
