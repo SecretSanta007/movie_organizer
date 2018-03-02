@@ -58,7 +58,7 @@ module MovieOrganizer
       @hostname = md[2]
       @remote_filename = md[3]
       if @username.nil? || @hostname.nil? || @remote_filename.nil?
-        raise 'SSH path not formatted properly. Use [ssh://username@hostname/absolute/path]'
+        fail 'SSH path not formatted properly. Use [ssh://username@hostname/absolute/path]'
       end
     end
 

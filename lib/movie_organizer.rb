@@ -6,7 +6,7 @@ require 'dotenv'
 require 'colored'
 require 'readline'
 
-paths = %W[.env .env.#{ENV['APP_ENV']}].map { |name| "#{Dir.pwd}/#{name}" }
+paths = %W(.env .env.#{ENV['APP_ENV']}).map { |name| "#{Dir.pwd}/#{name}" }
 Dotenv.load(*paths).each { |k, v| ENV[k] = v }
 
 require 'movie_organizer/version'

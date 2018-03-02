@@ -8,7 +8,7 @@ module MovieOrganizer
     let(:media_list) { MediaList.new([tmpdir]) }
 
     context '#new' do
-      %w[m4v mov mkv mp4 avi].each do |extension|
+      %w(m4v mov mkv mp4 avi).each do |extension|
         it "includes #{extension} files" do
           create_test_file(count: 3, extension: extension)
           expect(media_list.file_collection.count).to eq(3)
