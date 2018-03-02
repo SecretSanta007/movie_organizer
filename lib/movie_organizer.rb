@@ -30,7 +30,9 @@ module MovieOrganizer
   def self.source_directories(settings = Settings.new, test_response = nil)
     settings[:new_media_directories] || begin
       strings = prompt_for('Media source directories (separated by a colon)', test_response)
-      strings.split(':')
+      settings[:new_media_directories] = strings.split(':')
+      settings.save
+      settings[:new_media_directories]
     end
   end
 
