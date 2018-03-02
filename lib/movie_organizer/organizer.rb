@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
 require 'trollop'
 require 'colored'
 
