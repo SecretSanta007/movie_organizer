@@ -6,7 +6,6 @@ require 'colored'
 require 'readline'
 
 require 'movie_organizer/version'
-require 'midwire_common/string'
 
 module MovieOrganizer
   def self.root
