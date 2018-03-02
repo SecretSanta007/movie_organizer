@@ -10,13 +10,13 @@ Gem::Specification.new do |spec|
   spec.name          = 'movie_organizer'
   spec.version       = MovieOrganizer::VERSION
   spec.authors       = ['Chris Blackburn']
-  spec.email         = ['chris@midwiretech.com']
-  spec.summary       = 'Organize movie files'
+  spec.email         = ['87a1779b@opayq.com']
+  spec.summary       = 'Automatically organize movies, tv shows and home videos.'
   spec.description   = spec.summary
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/midwire/movie_organizer'
   spec.license       = 'MIT'
 
-  spec.required_ruby_version = '~> 2.4.2'
+  spec.required_ruby_version = '>= 2.3.0'
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})

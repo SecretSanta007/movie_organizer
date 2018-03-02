@@ -1,5 +1,7 @@
 # MovieOrganizer
 
+Automatically organize movies, tv shows and home videos.
+
 I use [Plex](https://www.plex.tv/) as the centerpiece of my home entertainment center, which requires that I rip my BluRay movies and TV shows, and copy them into a certain location so my [Plex server](https://www.plex.tv/downloads/) can recognize them.
 
 MovieOrganizer makes the job of organizing my ripped movies, tv shows and home videos as simple as:

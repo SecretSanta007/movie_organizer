@@ -9,20 +9,25 @@ module MovieOrganizer
       @filename = filename
       @target_file = target_file
       @options = options
-      parse_target
     end
 
     def copy
-      if ssh?
-        remote_copy
-      else
-        local_copy
-      end
+      ssh? ? remote_copy : local_copy
     end
 
     private
 
+    def local_copy
+      FileUtils.mkdir_p(File.dirname(target_file))
+      FileUtils.copy(
+        filename,
+        target_file,
+        noop: options[:dry_run]
+      )
+    end
+
     def remote_copy
+      parse_target
       return do_dry_run if options[:dry_run]
       Net::SSH.start(hostname, username) do |ssh|
         ssh.exec("mkdir -p '#{target_dir}'")
@@ -47,7 +52,7 @@ module MovieOrganizer
     def parse_target
       return nil if @parse_target
       @parse_target = true
-      temp ||= target_file.split('/')[2..99]
+      temp ||= target_file.to_s.split('/')[2..99]
       md = temp.join('/').match(/([\w\-\.]+)@([^\/]+)(\/.+)$/)
       @username = md[1]
       @hostname = md[2]
@@ -55,14 +60,6 @@ module MovieOrganizer
       if @username.nil? || @hostname.nil? || @remote_filename.nil?
         raise 'SSH path not formatted properly. Use [ssh://username@hostname/absolute/path]'
       end
-    end
-
-    def local_copy
-      FileUtils.move(
-        filename,
-        target_file,
-        force: true, noop: options[:dry_run]
-      )
     end
 
     def ssh?
