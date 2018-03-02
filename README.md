@@ -33,6 +33,8 @@ Note that this is beta software. I wrote it as a hack because I got tired of con
 
 ## Configuration
 
+Sign up for an account at [The Movie Database](https://www.themoviedb.org/) and get an API key.
+
 Create a file in your home directory named `.movie_organizer.yml` as follows:
 
 ```yaml
