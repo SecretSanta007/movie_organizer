@@ -24,7 +24,7 @@ module MovieOrganizer
       count = 0
 
       # Enumerate all of the new source media
-      @media_list = MediaList.new(options[:source_dir].split(':'))
+      @media_list = MediaList.new(MovieOrganizer.source_directories)
 
       # Process each source file
       @media_list.file_collection.each do |file|
@@ -46,8 +46,7 @@ module MovieOrganizer
         opt(
           :source_dir,
           'Source directories containing media files. Colon (:) separated.',
-          type: :string, required: false, short: '-s',
-          default: "#{MovieOrganizer.source_directories.join(' ')}")
+          type: :string, required: false, short: '-s')
         opt(
           :dry_run,
           'Do not actually move or copy files',

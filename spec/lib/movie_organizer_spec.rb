@@ -45,5 +45,22 @@ RSpec.describe MovieOrganizer, type: :module do
       expect(File.exist?(MovieOrganizer.config_file)).to eq(true)
     end
   end
+
+  context '#source_directories' do
+    context 'when configured' do
+      it 'returns an array of strings' do
+        settings = MovieOrganizer::Settings.new
+        expect(MovieOrganizer.source_directories(settings)).to be_an(Array)
+      end
+    end
+
+    context 'when not yet configured' do
+      it 'returns an array of strings' do
+        blank = MovieOrganizer.root.join('spec', 'fixtures', '.blank_settings.yml')
+        settings = MovieOrganizer::Settings.new(blank)
+        expect(MovieOrganizer.source_directories(settings, '~/Videos')).to be_an(Array)
+      end
+    end
+  end
 end
 # rubocop:enable Metrics/BlockLength

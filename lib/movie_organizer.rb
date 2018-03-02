@@ -31,16 +31,17 @@ module MovieOrganizer
     #:nocov:
   end
 
-  #:nocov:
-  def self.source_directories
-    settings = Settings.new
-    settings[:new_media_directories] || prompt_for('Media source directories (separated by a colon)')
+  def self.source_directories(settings = Settings.new, test_response = nil)
+    settings[:new_media_directories] || begin
+      strings = prompt_for('Media source directories (separated by a colon)', test_response)
+      strings.split(':')
+    end
   end
-  #:nocov:
 
   #:nocov:
-  def self.prompt_for(message = '')
+  def self.prompt_for(message = '', test_response = nil)
     prompt = "#{message.dup}\n? "
+    return test_response if test_response
     Readline.readline(prompt, true).squeeze(' ').strip
   end
   #:nocov:
