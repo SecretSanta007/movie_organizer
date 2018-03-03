@@ -36,6 +36,15 @@ module MovieOrganizer
     end
   end
 
+  def self.tmdb_key(settings = Settings.new, test_response = nil)
+    return settings[:movies][:tmdb_key] if settings[:movies] && settings[:movies][:tmdb_key]
+    settings[:movies] ||= {}
+    settings[:movies][:tmdb_key] =
+      prompt_for('TMDB API key (https://www.themoviedb.org/)', test_response)
+    settings.save
+    settings[:movies][:tmdb_key]
+  end
+
   #:nocov:
   def self.prompt_for(message = '', test_response = nil)
     prompt = "#{message.dup}\n? "
