@@ -63,14 +63,6 @@ module MovieOrganizer
 
     context '.process!' do
       it 'moves the file to the configured location' do
-        settings = Settings.new
-        binding.pry if settings.nil?
-        target_dir = File.join(
-          settings[:tv_shows][:directory],
-          tv_show.title,
-          "Season #{tv_show.season.sub(/^0+/, '')}"
-        )
-        expect(FileUtils).to receive(:mkdir_p).with(target_dir, noop: true).and_return(nil)
         expect(FileUtils).to receive(:move).and_return(nil)
         tv_show.process!
       end

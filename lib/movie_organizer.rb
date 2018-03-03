@@ -45,6 +45,33 @@ module MovieOrganizer
     settings[:movies][:tmdb_key]
   end
 
+  def self.movie_directory(settings = Settings.new, test_response = nil)
+    return settings[:movies][:directory] if settings[:movies] && settings[:movies][:directory]
+    settings[:movies] ||= {}
+    settings[:movies][:directory] =
+      prompt_for('Movie destination directory', test_response)
+    settings.save
+    settings[:movies][:directory]
+  end
+
+  def self.tv_shows_directory(settings = Settings.new, test_response = nil)
+    return settings[:tv_shows][:directory] if settings[:tv_shows] && settings[:tv_shows][:directory]
+    settings[:tv_shows] ||= {}
+    settings[:tv_shows][:directory] =
+      prompt_for('TV show destination directory', test_response)
+    settings.save
+    settings[:tv_shows][:directory]
+  end
+
+  def self.video_directory(settings = Settings.new, test_response = nil)
+    return settings[:videos][:directory] if settings[:videos] && settings[:videos][:directory]
+    settings[:videos] ||= {}
+    settings[:videos][:directory] =
+      prompt_for('Video destination directory', test_response)
+    settings.save
+    settings[:videos][:directory]
+  end
+
   #:nocov:
   def self.prompt_for(message = '', test_response = nil)
     prompt = "#{message.dup}\n? "

@@ -1,3 +1,10 @@
+*0.1.8* (March 03, 2018)
+
+* Prompt for movie directory setting if missing
+* Prompt for tv show directory setting if missing
+* Prompt for video directory setting if missing
+* Actual get home video processing working
+
 *0.1.7* (March 03, 2018)
 
 * Prompt for TMDB API key if missing

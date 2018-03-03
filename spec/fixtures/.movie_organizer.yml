@@ -15,5 +15,8 @@
   - The Blacklist
 :movies:
   :directory: "/Users/cblackburn/Code/ruby/Gems/movie_organizer/tmp/files/movies"
+  :tmdb_key: asdfasdf
 :new_media_directories:
 - "/Users/djohnson/Downloads"
+:videos:
+  :directory: "/tmp/videos"

@@ -17,13 +17,12 @@ module MovieOrganizer
     def process!
       return nil if should_skip?
       # rename the file
-      fail "Show not configured #{basename}" if title.nil?
+      raise "Show not configured #{basename}" if title.nil?
       target_dir = File.join(
-        settings[:tv_shows][:directory],
+        MovieOrganizer.tv_shows_directory,
         title,
         "Season #{season.sub(/^0+/, '')}"
       )
-      FileUtils.mkdir_p(target_dir, noop: dry_run?)
       target_file = File.join(target_dir, processed_filename)
       logger.info("    target dir: [#{target_dir}]")
       logger.info("    target file: [#{target_file.green.bold}]")
@@ -33,7 +32,7 @@ module MovieOrganizer
         force: true, noop: dry_run?
       )
     rescue ArgumentError => err
-      raise err unless err.message.match(/^same file:/)
+      raise err unless err.message =~ /^same file:/
     end
 
     # Standardize the filename
