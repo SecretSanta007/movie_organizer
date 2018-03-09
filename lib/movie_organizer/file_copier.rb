@@ -3,12 +3,13 @@
 module MovieOrganizer
   class FileCopier
     attr_accessor :filename, :target_file, :options
-    attr_reader :username, :hostname, :remote_filename
+    attr_reader :username, :hostname, :remote_filename, :logger
 
     def initialize(filename, target_file, options)
       @filename = filename
       @target_file = target_file
       @options = options
+      @logger = Logger.instance
     end
 
     def copy
@@ -29,12 +30,8 @@ module MovieOrganizer
     def remote_copy
       parse_target
       return do_dry_run if options[:dry_run]
-      Net::SSH.start(hostname, username) do |ssh|
-        ssh.exec("mkdir -p '#{target_dir}'")
-      end
-      Net::SCP.start(hostname, username) do |scp|
-        scp.upload!(filename, remote_filename)
-      end
+      create_remote_dir
+      copy_file_to_remote
     end
 
     def do_dry_run
@@ -58,12 +55,28 @@ module MovieOrganizer
       @hostname = md[2]
       @remote_filename = md[3]
       if @username.nil? || @hostname.nil? || @remote_filename.nil?
-        fail 'SSH path not formatted properly. Use [ssh://username@hostname/absolute/path]'
+        raise 'SSH path not formatted properly. Use [ssh://username@hostname/absolute/path]'
       end
     end
 
     def ssh?
       target_file.match?(/^ssh:/)
+    end
+
+    def create_remote_dir
+      Net::SSH.start(hostname, username, timeout: 5) do |ssh|
+        ssh.exec("mkdir -p '#{target_dir}'")
+      end
+    rescue Net::SSH::ConnectionTimeout, Errno::EHOSTUNREACH, Errno::EHOSTDOWN
+      logger.error("ConnectionTimeout: the host '#{hostname}' is unreachable.".red)
+    end
+
+    def copy_file_to_remote
+      Net::SCP.start(hostname, username) do |scp|
+        scp.upload!(filename, remote_filename)
+      end
+    rescue Net::SSH::ConnectionTimeout, Errno::EHOSTUNREACH, Errno::EHOSTDOWN
+      logger.error("ConnectionTimeout: the host '#{hostname}' is unreachable.".red)
     end
   end
 end

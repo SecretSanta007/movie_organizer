@@ -12,7 +12,7 @@ module MovieOrganizer
     def process!
       target_dir = File.join(MovieOrganizer.movie_directory, "#{title} (#{year})")
       target_file = File.join(target_dir, processed_filename)
-      logger.info("    target dir: [#{target_dir}]")
+      # logger.info("    target dir: [#{target_dir}]")
       logger.info("    target file: [#{target_file.green.bold}]")
       fc = FileCopier.new(filename, target_file, options)
       fc.copy
