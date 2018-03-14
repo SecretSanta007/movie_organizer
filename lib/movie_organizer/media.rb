@@ -82,6 +82,7 @@ module MovieOrganizer
       cleanstr = cleanstr.gsub(/BrRip/i, '').strip
       cleanstr = cleanstr.gsub(/ECI/i, '').strip
       cleanstr = cleanstr.gsub(/HDTV/i, '').strip
+      cleanstr = cleanstr.gsub(/WEBRip/i, '').strip
       cleanstr = cleanstr.gsub(/x264/, '').strip
       cleanstr = cleanstr.gsub(/-lol/i, '').strip
       # cleanstr = cleanstr.gsub(/[\.\s-]us[\.\s-]/i, ' ').strip

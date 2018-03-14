@@ -27,7 +27,8 @@ module MovieOrganizer
       movies = [
         'Coco.2017.1080p.BluRay.x264-[BOGUS.IT]',
         'Beetlejuice',
-        'Justice.League.2017.1080p.BluRay.x264-[YTS.AM]'
+        'Justice.League.2017.1080p.BluRay.x264-[YTS.AM]',
+        'Jumanji.Welcome.To.The.Jungle.2017.1080p.WEBRip.x264-[YTS.AM].mp4'
       ]
 
       movies.each do |filename|
