@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'net/scp'
+
 module MovieOrganizer
   class FileCopier
     attr_accessor :filename, :target_file, :options

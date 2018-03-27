@@ -11,8 +11,9 @@ module MovieOrganizer
         name: 'Coco (2017).mp4'
       },
       'Beetlejuice' => {
-        year: nil,
-        name: 'Beetlejuice ().mp4'
+        directory: 'Beetlejuice (1995)',
+        year: '1995',
+        name: 'Beetlejuice (1995).mp4'
       },
       'Justice.League.2017.1080p.BluRay.x264-[YTS.AM]' => {
         year: '2017',
@@ -21,13 +22,40 @@ module MovieOrganizer
       'Jumanji.Welcome.To.The.Jungle.2017.1080p.WEBRip.x264-[YTS.AM]' => {
         year: '2017',
         name: 'Jumanji Welcome To The Jungle (2017).mp4'
+      },
+      'The.Prestige.2006.m720p.x264' => {
+        year: '2006',
+        name: 'The Prestige (2006).mp4'
+      },
+      'Gone.in.Sixty.Seconds.2000.720p.BrRip.x264.YIFY+HI' => {
+        year: '2000',
+        name: 'Gone in Sixty Seconds (2000).mp4'
+      },
+      'Rain.Man.Br.YIFY' => {
+        directory: 'Rain Man (2000)',
+        year: '2000',
+        name: 'Rain Man (2000).mp4'
+      },
+      'Stealth (2005) BDRip 720p x264-muxed' => {
+        year: '2005',
+        name: 'Stealth (2005).mp4'
+      },
+      'The.Train.Robbers.1973.720p.BluRay.x264.YIFY' => {
+        year: '1973',
+        name: 'The Train Robbers (1973).mp4'
+      },
+      'waterhorse720p.x264' => {
+        year: '2007',
+        directory: 'The Water Horse (2007)',
+        name: 'The Water Horse (2007)'
       }
     }
 
     movies.each_pair do |filename, data|
       context filename do
         before(:each) do
-          @filepath = create_test_file(filename: filename, extension: 'mp4').first
+          dirname = MovieOrganizer.root.join('tmp', data.fetch(:directory, ''))
+          @filepath = create_test_file(filename: filename, extension: 'mp4', dirname: dirname).first
           @expected_filename = data[:name]
           @expected_year = data[:year]
           @movie = Movie.new(@filepath, default_options)

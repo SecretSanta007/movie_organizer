@@ -40,7 +40,8 @@ module MovieOrganizer
       return @movie unless @movie.nil?
       @movie = false
       Tmdb::Api.key(MovieOrganizer.tmdb_key)
-      title = sanitize(File.basename(filename, ext)).gsub(/\d\d\d\d/, '').strip
+      # Remove the year and sanitize
+      title = sanitize(File.basename(filename, ext)).gsub(/[\s\.\-\_]\(?\d\d\d\d\)?/, '').strip
       matches = Tmdb::Movie.find(title)
       @movie = matches.any?
       @movie
@@ -48,6 +49,8 @@ module MovieOrganizer
 
     def year
       md = basename.match(/\((\d\d\d\d)\)|(19\d\d)|(20\d\d)/)
+      # try dirname if filename has no year
+      md = dirname.match(/\((\d\d\d\d)\)|(19\d\d)|(20\d\d)/) if md.nil?
       md ? md.captures.compact.first : nil
     end
 
@@ -61,6 +64,10 @@ module MovieOrganizer
       File.extname(filename)
     end
 
+    def dirname
+      File.dirname(filename)
+    end
+
     def verbose?
       options[:verbose]
     end
@@ -70,26 +77,34 @@ module MovieOrganizer
     end
 
     # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     def sanitize(str)
       cleanstr = str.gsub(/-\s*-/, '')
       cleanstr = cleanstr.gsub(/\[?1080p\]?/, '').strip
-      cleanstr = cleanstr.gsub(/\[?720p\]?/, '').strip
+      cleanstr = cleanstr.gsub(/m?\[?720p\]?/, '').strip
       cleanstr = cleanstr.gsub(/\[[^\]]+\]/, '').strip
       cleanstr = cleanstr.gsub(/EXTENDED/, '').strip
       cleanstr = cleanstr.gsub(/YIFY/, '').strip
       cleanstr = cleanstr.gsub(/VPPV/, '').strip
       cleanstr = cleanstr.gsub(/BluRay/i, '').strip
       cleanstr = cleanstr.gsub(/BrRip/i, '').strip
+      cleanstr = cleanstr.gsub(/[\s\.]Br[\s\.]?/i, '').strip
+      cleanstr = cleanstr.gsub(/BdRip/i, '').strip
       cleanstr = cleanstr.gsub(/ECI/i, '').strip
       cleanstr = cleanstr.gsub(/HDTV/i, '').strip
       cleanstr = cleanstr.gsub(/WEBRip/i, '').strip
       cleanstr = cleanstr.gsub(/x264/, '').strip
+      cleanstr = cleanstr.gsub(/AAC/, '').strip
       cleanstr = cleanstr.gsub(/-lol/i, '').strip
+      cleanstr = cleanstr.gsub(/\+HI/i, '').strip
+      cleanstr = cleanstr.gsub(/muxed/i, '').strip
+      cleanstr = cleanstr.gsub(/\d\d\d+mb/i, '').strip
       # cleanstr = cleanstr.gsub(/[\.\s-]us[\.\s-]/i, ' ').strip
       cleanstr = cleanstr.gsub(/-\s*/, '').strip
       cleanstr = cleanstr.gsub(/\s\s+/, ' ').strip
       cleanstr.gsub(/[\.\+]/, ' ').strip
     end
+    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
   end
 end

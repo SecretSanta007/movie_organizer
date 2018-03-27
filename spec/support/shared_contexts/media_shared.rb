@@ -32,11 +32,13 @@ shared_context 'media_shared' do
     tvshow    = options.fetch(:tvshow, true)
     count     = options.fetch(:count, 1)
     filename  = options.fetch(:filename, false)
+    dirname   = options.fetch(:dirname, tmpdir)
     extension = options.fetch(:extension, 'mp4')
     files     = []
 
     if filename
-      files = [File.join(tmpdir, "#{filename}.#{extension}")]
+      files = [File.join(dirname, "#{filename}.#{extension}")]
+      FileUtils.mkdir_p(dirname)
       File.open(files.last, 'w') { |f| f.write("Fake Media File\n") }
     else
       count.times do

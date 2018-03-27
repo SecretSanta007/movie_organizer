@@ -1,3 +1,9 @@
+*0.1.11* (March 27, 2018)
+
+* Fix bug where it wouldn't always autoload net-scp.
+* Search directory name if a movie filename has no year embedded in it.
+* Allow TV Shows to be copied to remote servers using SCP.
+
 *0.1.10* (March 14, 2018)
 
 * Strip 'WebRip' from filenames

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MovieOrganizer
   class TvShow < Media
     S_E_EXPRESSIONS = [
@@ -24,13 +26,9 @@ module MovieOrganizer
         "Season #{season.sub(/^0+/, '')}"
       )
       target_file = File.join(target_dir, processed_filename)
-      logger.info("    target dir: [#{target_dir}]")
       logger.info("    target file: [#{target_file.green.bold}]")
-      FileUtils.move(
-        filename,
-        target_file,
-        force: true, noop: dry_run?
-      )
+      fc = FileCopier.new(filename, target_file, options)
+      fc.copy
     rescue ArgumentError => err
       raise err unless err.message =~ /^same file:/
     end
