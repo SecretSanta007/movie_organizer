@@ -3,7 +3,7 @@
 require_relative 'string'
 
 module MovieOrganizer
-  class Video < Media
+  class Video < Medium
     attr_reader :settings
 
     def initialize(filename, options)

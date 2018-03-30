@@ -28,10 +28,14 @@ module MovieOrganizer
       # Process each source file
       @media_list.file_collection.each do |file|
         # Get movie or TV show information so we can rename the file if necessary
-        media = Media.subtype(file, options)
+        media = Medium.build_instance(file)
+        if media.nil?
+          logger.info("Skipping [#{file}]")
+          next
+        end
         # Move and/or rename the file
         logger.info("Processing [#{file}] - #{media.class.to_s.yellow}")
-        media.process!
+        media.groom
         count += 1
       end
       elapsed = Time.now - start_time
@@ -40,28 +44,34 @@ module MovieOrganizer
 
     private
 
+    # rubocop:disable Metrics/MethodLength
     def collect_args
       Trollop.options do
         opt(
           :source_dir,
           'Source directories containing media files. Colon (:) separated.',
-          type: :string, required: false, short: '-s')
+          type: :string, required: false, short: '-s'
+        )
         opt(
           :dry_run,
           'Do not actually move or copy files',
           type: :boolean, required: false, short: '-d',
-          default: false)
+          default: false
+        )
         opt(
           :preserve_episode_name,
           'Preserve episode names if they exist (experimental)',
           type: :boolean, required: false, short: '-p',
-          default: false)
+          default: false
+        )
         opt(
           :verbose,
           'Be verbose with output',
           type: :boolean, required: false, short: '-v',
-          default: false)
+          default: false
+        )
       end
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end

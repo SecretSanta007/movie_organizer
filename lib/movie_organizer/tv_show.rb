@@ -1,59 +1,65 @@
 # frozen_string_literal: true
 
 module MovieOrganizer
-  class TvShow < Media
+  class TvShow < Medium
+    attr_reader :tvdb_instance, :preserve_episode_name
+
     S_E_EXPRESSIONS = [
       /(s(\d+)e(\d+))/i,
-      /((\d+)x(\d+))/i,
-      /[\.\s]((\d)(\d+))[\.\s]/i
-    ]
+      /((\d+)x(\d+))/i
+    ].freeze
 
-    def initialize(filename, options)
-      super
-      @season = nil
-      @episode = nil
-      @episode_title = nil
-      @season_and_episode = nil
+    class << self
+      def match?(filepath)
+        index = nil
+        clean_title = nil
+        base = basename(filepath)
+        sanitized = sanitize(base)
+        S_E_EXPRESSIONS.each do |regex|
+          next unless (md = sanitized.match(regex))
+          index = sanitized.index(md[1], 0)
+          clean_title = sanitized[0..index - 1].strip
+          break
+        end
+        return false unless clean_title
+        tvdb_instance = TvdbInstance.new(clean_title)
+        return tvdb_instance if tvdb_instance.tv_show?
+        false
+      end
     end
 
+    def initialize(filename, tvdb_instance)
+      super(filename)
+      @tvdb_instance         = tvdb_instance
+      @season                = nil
+      @episode               = nil
+      @episode_title         = nil
+      @season_and_episode    = nil
+      @preserve_episode_name = false
+    end
+
+    # Set the target filename
+    #
     def process!
       return nil if should_skip?
-      # rename the file
-      raise "Show not configured #{basename}" if title.nil?
-      target_dir = File.join(
-        MovieOrganizer.tv_shows_directory,
-        title,
-        "Season #{season.sub(/^0+/, '')}"
-      )
-      target_file = File.join(target_dir, processed_filename)
-      logger.info("    target file: [#{target_file.green.bold}]")
-      fc = FileCopier.new(filename, target_file, options)
-      fc.copy
-    rescue ArgumentError => err
-      raise err unless err.message =~ /^same file:/
+
+      @target = File.join(target_dir, processed_filename)
+      Logger.instance.info("    target file: [#{@target.green.bold}]")
     end
 
     # Standardize the filename
     # @return [String] cleaned filename
     def processed_filename
       return nil if should_skip?
-      if options[:preserve_episode_name] && episode_title
-        "#{title} - #{season_and_episode} - #{episode_title}#{ext}"
+      if @preserve_episode_name && episode_title
+        "#{title} - #{season_and_episode} - #{episode_title}#{extname}"
       else
-        "#{title} - #{season_and_episode}#{ext}"
+        "#{title} - #{season_and_episode}#{extname}"
       end
     end
 
     def title
-      return @title unless @title.nil?
-      settings[:tv_shows][:my_shows].each do |show|
-        md = sanitize(basename).match(Regexp.new(sanitize(show), Regexp::IGNORECASE))
-        if md
-          @title = md[0].titleize
-          return @title
-        end
-      end
-      @title
+      tvdb_instance.match.title
     end
 
     def season
@@ -68,6 +74,14 @@ module MovieOrganizer
       filename.match(/[\.\s-]?sample[\.\s-]?/)
     end
 
+    def target_dir
+      @target_dir ||= File.join(
+        MovieOrganizer.tv_shows_directory,
+        title,
+        "Season #{season.sub(/^0+/, '')}"
+      )
+    end
+
     def episode_title
       return @episode_title unless @episode_title.nil?
       md = basename.match(/([^-]+)-([^-]+)-([^-]+)/)
@@ -77,8 +91,8 @@ module MovieOrganizer
 
     def season_and_episode
       return @season_and_episode unless @season_and_episode.nil?
-      clean_basename = sanitize(basename)
-      s_and_e_info = clean_basename.sub(Regexp.new(title, Regexp::IGNORECASE), '')
+      base = basename.gsub(/#{title}[\.\s]*/i, '')
+      s_and_e_info = sanitize(base)
       S_E_EXPRESSIONS.each do |regex|
         md = s_and_e_info.match(regex)
         next unless md

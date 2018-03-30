@@ -4,34 +4,35 @@ require 'net/scp'
 
 module MovieOrganizer
   class FileCopier
-    attr_accessor :filename, :target_file, :options
+    attr_accessor :filename, :target_file
     attr_reader :username, :hostname, :remote_filename, :logger
 
-    def initialize(filename, target_file, options)
+    def initialize(filename, target_file)
       @filename = filename
       @target_file = target_file
-      @options = options
       @logger = Logger.instance
+      @dry_run = false
     end
 
-    def copy
+    def copy!
       ssh? ? remote_copy : local_copy
     end
 
     private
 
     def local_copy
-      FileUtils.mkdir_p(File.dirname(target_file))
-      FileUtils.copy(
-        filename,
-        target_file,
-        noop: options[:dry_run]
-      )
+      dir = File.dirname(target_file)
+      FileUtils.mkdir_p(dir) unless File.exist?(dir)
+      if File.exist?(target_file)
+        Logger.instance.info("    already exists: [#{target_file.green.bold}]")
+        return true
+      end
+      FileUtils.move(filename, target_file, noop: @dry_run)
     end
 
     def remote_copy
       parse_target
-      return do_dry_run if options[:dry_run]
+      return do_dry_run if @dry_run
       create_remote_dir
       copy_file_to_remote
     end
@@ -67,7 +68,7 @@ module MovieOrganizer
 
     def create_remote_dir
       Net::SSH.start(hostname, username, timeout: 5) do |ssh|
-        ssh.exec("mkdir -p '#{target_dir}'")
+        ssh.exec!("mkdir -p \"#{target_dir}\"")
       end
     rescue Net::SSH::ConnectionTimeout, Errno::EHOSTUNREACH, Errno::EHOSTDOWN
       logger.error("ConnectionTimeout: the host '#{hostname}' is unreachable.".red)
@@ -77,6 +78,7 @@ module MovieOrganizer
       Net::SCP.start(hostname, username) do |scp|
         scp.upload!(filename, remote_filename)
       end
+      FileUtils.rm(filename, noop: @dry_run)
     rescue Net::SSH::ConnectionTimeout, Errno::EHOSTUNREACH, Errno::EHOSTDOWN
       logger.error("ConnectionTimeout: the host '#{hostname}' is unreachable.".red)
     end

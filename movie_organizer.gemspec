@@ -31,13 +31,14 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.2'
   spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'titleize', '~> 1.3'
 
   spec.add_runtime_dependency 'colored'
   spec.add_runtime_dependency 'fileutils'
-  spec.add_runtime_dependency 'mime-types'
   spec.add_runtime_dependency 'net-scp', '~> 1.2'
+  spec.add_runtime_dependency 'ruby-filemagic', '~> 0.7.2' # Determine mime types
   spec.add_runtime_dependency 'themoviedb', '~> 1.0'
-  spec.add_runtime_dependency 'titleize', '~> 1.3'
   spec.add_runtime_dependency 'trollop'
+  # spec.add_runtime_dependency 'tvdbr', '~> 0.2'
 end
 # rubocop:enable Metrics/BlockLength

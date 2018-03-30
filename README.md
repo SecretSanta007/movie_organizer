@@ -74,6 +74,13 @@ Options:
   -h, --help                     Show this message
 ```
 
+## TODO
+
+* Consolidate and better manage regular expressions
+* Option to copy or move (copy and delete original files)
+* Option to just rename/reorganize instead of moving across partitions or hosts
+* Handle multi-part movies and videos `Beetlejuice (1996)-part1.mp4`, `Beetlejuice (1996)-part2.mp4`, etc.
+
 ## Attribution
 
 ### The Movie Database

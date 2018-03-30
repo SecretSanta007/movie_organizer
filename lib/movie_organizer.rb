@@ -5,6 +5,7 @@
 require 'colored'
 require 'readline'
 require 'fileutils'
+require 'pry'
 
 require 'movie_organizer/version'
 
@@ -80,13 +81,15 @@ module MovieOrganizer
   end
   #:nocov:
 
-  autoload :FileCopier, 'movie_organizer/file_copier'
-  autoload :Logger,     'movie_organizer/logger'
-  autoload :Media,      'movie_organizer/media'
-  autoload :MediaList,  'movie_organizer/media_list'
-  autoload :Movie,      'movie_organizer/movie'
-  autoload :Organizer,  'movie_organizer/organizer'
-  autoload :Settings,   'movie_organizer/settings'
-  autoload :TvShow,     'movie_organizer/tv_show'
-  autoload :Video,      'movie_organizer/video'
+  autoload :FileCopier,   'movie_organizer/file_copier'
+  autoload :Logger,       'movie_organizer/logger'
+  autoload :Medium,       'movie_organizer/medium'
+  autoload :MediaList,    'movie_organizer/media_list'
+  autoload :Movie,        'movie_organizer/movie'
+  autoload :Organizer,    'movie_organizer/organizer'
+  autoload :Settings,     'movie_organizer/settings'
+  autoload :TmdbInstance, 'movie_organizer/tmdb_instance'
+  autoload :TvdbInstance, 'movie_organizer/tvdb_instance'
+  autoload :TvShow,       'movie_organizer/tv_show'
+  autoload :Video,        'movie_organizer/video'
 end

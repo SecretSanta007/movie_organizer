@@ -10,4 +10,12 @@ class String
     lines.map! { |c| c.sub!(/\s*\|/, '') }
     lines.join(delimeter)
   end
+
+  def escape_single_quotes!
+    gsub!(/[']/, '\\\\\'')
+  end
+
+  def escape_double_quotes!
+    gsub!(/["]/, '\\\\\"')
+  end
 end
