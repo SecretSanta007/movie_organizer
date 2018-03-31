@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'themoviedb'
+
 # A cached movie lookup instance
 module MovieOrganizer
   class TmdbInstance

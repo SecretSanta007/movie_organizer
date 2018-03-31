@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
+require 'singleton'
 require 'yaml'
 
 #:nocov:
 module MovieOrganizer
   # Simple class for YAML settings
   class Settings
+    include Singleton
+
     attr_reader :file
     attr_reader :config
 

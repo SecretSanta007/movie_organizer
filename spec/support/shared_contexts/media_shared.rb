@@ -50,3 +50,12 @@ shared_context 'media_shared' do
   end
 end
 # rubocop:enable Metrics/BlockLength
+
+def file_fixture_path
+  MovieOrganizer.root.join('spec', 'files')
+end
+
+def stub_tvdb(return_value)
+  stub = double('TvdbInstance', :tv_show?)
+  allow(TvdbInstance).to receive(:new).and_return(stub)
+end

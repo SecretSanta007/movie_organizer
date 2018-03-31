@@ -28,7 +28,7 @@ module MovieOrganizer
     #:nocov:
   end
 
-  def self.source_directories(settings = Settings.new, test_response = nil)
+  def self.source_directories(settings = Settings.instance, test_response = nil)
     settings[:new_media_directories] || begin
       strings = prompt_for('Media source directories (separated by a colon)', test_response)
       settings[:new_media_directories] = strings.split(':')
@@ -37,7 +37,7 @@ module MovieOrganizer
     end
   end
 
-  def self.tmdb_key(settings = Settings.new, test_response = nil)
+  def self.tmdb_key(settings = Settings.instance, test_response = nil)
     return settings[:movies][:tmdb_key] if settings[:movies] && settings[:movies][:tmdb_key]
     settings[:movies] ||= {}
     settings[:movies][:tmdb_key] =
@@ -46,7 +46,7 @@ module MovieOrganizer
     settings[:movies][:tmdb_key]
   end
 
-  def self.movie_directory(settings = Settings.new, test_response = nil)
+  def self.movie_directory(settings = Settings.instance, test_response = nil)
     return settings[:movies][:directory] if settings[:movies] && settings[:movies][:directory]
     settings[:movies] ||= {}
     settings[:movies][:directory] =
@@ -55,7 +55,7 @@ module MovieOrganizer
     settings[:movies][:directory]
   end
 
-  def self.tv_shows_directory(settings = Settings.new, test_response = nil)
+  def self.tv_shows_directory(settings = Settings.instance, test_response = nil)
     return settings[:tv_shows][:directory] if settings[:tv_shows] && settings[:tv_shows][:directory]
     settings[:tv_shows] ||= {}
     settings[:tv_shows][:directory] =
@@ -64,7 +64,7 @@ module MovieOrganizer
     settings[:tv_shows][:directory]
   end
 
-  def self.video_directory(settings = Settings.new, test_response = nil)
+  def self.video_directory(settings = Settings.instance, test_response = nil)
     return settings[:videos][:directory] if settings[:videos] && settings[:videos][:directory]
     settings[:videos] ||= {}
     settings[:videos][:directory] =

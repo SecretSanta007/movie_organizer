@@ -11,7 +11,7 @@ module MovieOrganizer
         extension: 'mp4'
       ).first
     end
-    let(:video) { Video.new(filename, default_options) }
+    let(:video) { Video.new(filename) }
 
     context '#new' do
       it 'returns a child of the Media class' do
@@ -35,7 +35,7 @@ module MovieOrganizer
 
     context '.process!' do
       it 'moves the file to the configured location' do
-        fc = FileCopier.new('/tmp/bogus', '/tmp/bogus2', default_options)
+        fc = FileCopier.new('/tmp/bogus', '/tmp/bogus2')
         expect(fc).to receive(:copy).and_return(nil)
         video.process!(fc)
       end

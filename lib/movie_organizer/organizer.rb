@@ -53,17 +53,23 @@ module MovieOrganizer
           type: :string, required: false, short: '-s'
         )
         opt(
+          :copy,
+          'Copy instead of Move files',
+          type: :boolean, required: false, short: '-c',
+          default: false
+        )
+        opt(
           :dry_run,
           'Do not actually move or copy files',
           type: :boolean, required: false, short: '-d',
           default: false
         )
-        opt(
-          :preserve_episode_name,
-          'Preserve episode names if they exist (experimental)',
-          type: :boolean, required: false, short: '-p',
-          default: false
-        )
+        # opt(
+        #   :preserve_episode_name,
+        #   'Preserve episode names if they exist (experimental)',
+        #   type: :boolean, required: false, short: '-p',
+        #   default: false
+        # )
         opt(
           :verbose,
           'Be verbose with output',

@@ -5,12 +5,11 @@ require 'net/scp'
 module MovieOrganizer
   class FileCopier
     attr_accessor :filename, :target_file
-    attr_reader :username, :hostname, :remote_filename, :logger
+    attr_reader :username, :hostname, :remote_filename
 
     def initialize(filename, target_file)
       @filename = filename
       @target_file = target_file
-      @logger = Logger.instance
       @dry_run = false
     end
 
@@ -32,14 +31,14 @@ module MovieOrganizer
 
     def remote_copy
       parse_target
-      return do_dry_run if @dry_run
+      return do_remote_dry_run if @dry_run
       create_remote_dir
       copy_file_to_remote
     end
 
-    def do_dry_run
-      puts("Would remotely execute: [#{"mkdir -p '#{target_dir}'"}] on #{hostname}")
-      puts("Would execute: [#{"scp '#{filename}' '#{remote_filename}'"}]")
+    def do_remote_dry_run
+      Logger.instance.info("Would remotely execute: [#{create_remote_dir_cmd}] on #{hostname}")
+      Logger.instance.info("Would execute: [#{copy_file_to_remote_cmd}]")
     end
 
     def target_dir
@@ -66,12 +65,20 @@ module MovieOrganizer
       target_file.match?(/^ssh:/)
     end
 
+    def create_remote_dir_cmd
+      "mkdir -p \"#{target_dir}\""
+    end
+
+    def copy_file_to_remote_cmd
+      "scp '#{filename}' '#{remote_filename}'"
+    end
+
     def create_remote_dir
       Net::SSH.start(hostname, username, timeout: 5) do |ssh|
-        ssh.exec!("mkdir -p \"#{target_dir}\"")
+        ssh.exec!(create_remote_dir_cmd)
       end
     rescue Net::SSH::ConnectionTimeout, Errno::EHOSTUNREACH, Errno::EHOSTDOWN
-      logger.error("ConnectionTimeout: the host '#{hostname}' is unreachable.".red)
+      Logger.instance.error("ConnectionTimeout: the host '#{hostname}' is unreachable.".red)
     end
 
     def copy_file_to_remote
@@ -80,7 +87,7 @@ module MovieOrganizer
       end
       FileUtils.rm(filename, noop: @dry_run)
     rescue Net::SSH::ConnectionTimeout, Errno::EHOSTUNREACH, Errno::EHOSTDOWN
-      logger.error("ConnectionTimeout: the host '#{hostname}' is unreachable.".red)
+      Logger.instance.error("ConnectionTimeout: the host '#{hostname}' is unreachable.".red)
     end
   end
 end
