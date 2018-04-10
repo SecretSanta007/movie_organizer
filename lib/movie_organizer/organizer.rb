@@ -18,7 +18,9 @@ module MovieOrganizer
 
     def start
       start_time = Time.now
-      @options = collect_args
+      options = MovieOrganizer::Options.instance
+      options.send(:initialize_hash, collect_args)
+
       logger.info('Starting MovieOrganizer...'.green)
       count = 0
 

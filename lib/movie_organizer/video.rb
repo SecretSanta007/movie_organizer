@@ -30,11 +30,11 @@ module MovieOrganizer
       target_file = File.join(target_dir, processed_filename)
       Logger.instance.info("    target file: [#{target_file.green.bold}]")
       fc = file_copier || FileCopier.new(filename, target_file, options)
-      fc.copy
+      fc.copy!
     end
 
     def processed_filename
-      "#{title} (#{year})#{ext}"
+      "#{title} (#{year})#{extname}"
     end
 
     def title
@@ -50,14 +50,28 @@ module MovieOrganizer
     end
 
     def date_time
-      filestat = File.stat(filename)
-      filestat.birthtime.strftime('%Y-%m-%d @ %l:%M %p')
+      release_date&.strftime('%Y-%m-%d @ %l:%M %p')
     end
 
-    # private
+    # Return assumed year of video.
+    # First try to get it from the filename itself
+    # Next get it from the operating system's creation date of the file
+    #
+    # @return [Fixnum] Assumed year of the video file
+    def year
+      derived = derived_year
+      return derived if derived
+      release_date&.year
+    end
 
     def target_dir
       File.join(MovieOrganizer.video_directory, "#{title} (#{date_time})")
+    end
+
+    def release_date
+      st = File.stat(filename)
+      return st.birthtime unless MovieOrganizer.os == :retarded
+      st.ctime
     end
   end
 end

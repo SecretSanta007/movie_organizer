@@ -26,6 +26,8 @@ module MovieOrganizer
       def media_file?(filepath)
         return false if File.directory?(filepath)
 
+        MovieOrganizer.verbose_puts("checking: #{filepath}")
+
         mime = mime_type(filepath)
 
         return true if

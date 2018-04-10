@@ -10,7 +10,7 @@ module MovieOrganizer
     def initialize(filename, target_file)
       @filename = filename
       @target_file = target_file
-      @dry_run = false
+      @dry_run = MovieOrganizer.options[:dry_run]
     end
 
     def copy!
@@ -26,7 +26,11 @@ module MovieOrganizer
         Logger.instance.info("    already exists: [#{target_file.green.bold}]")
         return true
       end
-      FileUtils.move(filename, target_file, noop: @dry_run)
+      if MovieOrganizer.options[:copy]
+        FileUtils.copy(filename, target_file, noop: @dry_run)
+      else
+        FileUtils.move(filename, target_file, noop: @dry_run)
+      end
     end
 
     def remote_copy
@@ -85,7 +89,7 @@ module MovieOrganizer
       Net::SCP.start(hostname, username) do |scp|
         scp.upload!(filename, remote_filename)
       end
-      FileUtils.rm(filename, noop: @dry_run)
+      FileUtils.rm(filename, noop: @dry_run) unless MovieOrganizer.options[:copy]
     rescue Net::SSH::ConnectionTimeout, Errno::EHOSTUNREACH, Errno::EHOSTDOWN
       Logger.instance.error("ConnectionTimeout: the host '#{hostname}' is unreachable.".red)
     end

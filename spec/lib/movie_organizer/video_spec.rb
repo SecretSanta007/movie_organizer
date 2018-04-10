@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'spec_helper'
+
 # rubocop:disable Metrics/BlockLength
 module MovieOrganizer
   RSpec.describe Video, type: :lib do
@@ -15,7 +17,7 @@ module MovieOrganizer
 
     context '#new' do
       it 'returns a child of the Media class' do
-        expect(video).to be_a(Media)
+        expect(video).to be_a(Medium)
       end
 
       it 'is a Video' do
@@ -36,7 +38,7 @@ module MovieOrganizer
     context '.process!' do
       it 'moves the file to the configured location' do
         fc = FileCopier.new('/tmp/bogus', '/tmp/bogus2')
-        expect(fc).to receive(:copy).and_return(nil)
+        expect(fc).to receive(:copy!).and_return(nil)
         video.process!(fc)
       end
     end

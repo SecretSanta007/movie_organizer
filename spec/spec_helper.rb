@@ -91,4 +91,9 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
+
+  config.before(:each) do
+    options = MovieOrganizer::Options.instance
+    options.send(:initialize_hash, dry_run: true, verbose: true, copy: true)
+  end
 end

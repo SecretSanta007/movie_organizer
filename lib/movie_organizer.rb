@@ -28,6 +28,22 @@ module MovieOrganizer
     #:nocov:
   end
 
+  def self.options
+    MovieOrganizer::Options.instance
+  end
+
+  def self.verbose_puts(string)
+    Logger.instance.info(" #{string}") if options[:verbose]
+  end
+
+  def self.os
+    if RUBY_PLATFORM.match?(/cygwin|mswin|mingw|bccwin|wince|emx/)
+      :retarded
+    else
+      :normal
+    end
+  end
+
   def self.source_directories(settings = Settings.instance, test_response = nil)
     settings[:new_media_directories] || begin
       strings = prompt_for('Media source directories (separated by a colon)', test_response)
@@ -86,6 +102,7 @@ module MovieOrganizer
   autoload :Medium,       'movie_organizer/medium'
   autoload :MediaList,    'movie_organizer/media_list'
   autoload :Movie,        'movie_organizer/movie'
+  autoload :Options,      'movie_organizer/options'
   autoload :Organizer,    'movie_organizer/organizer'
   autoload :Settings,     'movie_organizer/settings'
   autoload :TmdbInstance, 'movie_organizer/tmdb_instance'
