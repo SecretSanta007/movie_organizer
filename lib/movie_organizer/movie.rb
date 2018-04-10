@@ -11,11 +11,20 @@ module MovieOrganizer
       #
       # @return [Boolean] TmdbInstance if likely a Movie, false if not
       def match?(filepath)
-        base          = basename(filepath).gsub(/-1$/, '')
-        clean_title   = sanitize(base).gsub(/[\s\.\-\_]\(?\d+\)?/, '')
-        tmdb_instance = TmdbInstance.new(clean_title)
+        base          = basename(filepath)
+        possible_year = possible_year_in_title(base)
+        clean_title   = sanitize(base).gsub(/[\s\.\-\_]\(?\s*\d+\s*\)?/, '')
+        tmdb_instance = TmdbInstance.new(clean_title, possible_year)
         return tmdb_instance if tmdb_instance.movie?
         false
+      end
+
+      private
+
+      def possible_year_in_title(title)
+        title_with_year = sanitize(title)
+        md = title_with_year.match(/(\d+)/)
+        md ? md[1] : nil
       end
     end
 

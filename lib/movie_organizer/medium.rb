@@ -68,7 +68,7 @@ module MovieOrganizer
         cleanstr.gsub!(/EXTENDED/, '')
         cleanstr.gsub!(/UNRATED/, '')
         cleanstr.gsub!(/ETRG/, '')
-        cleanstr.gsub!(/YIFY/, '')
+        cleanstr.gsub!(/(Deceit)?\.?YIFY/, '')
         cleanstr.gsub!(/VPPV/, '')
         cleanstr.gsub!(/HQ/, '')
         cleanstr.gsub!(/x264/, '')
@@ -91,7 +91,8 @@ module MovieOrganizer
         cleanstr.gsub!(/ac3/i, '')
         cleanstr.gsub!(/hive/i, '')
         cleanstr.gsub!(/-?cm8/i, '')
-        cleanstr.gsub!(/\d\d\d+mb/i, '')
+        cleanstr.gsub!(/[\d\.]+mb/i, '')
+        cleanstr.gsub!(/[\d\.]+gb/i, '')
         cleanstr.gsub!(/\s\s+/, ' ')
         cleanstr.tr!('_', ' ') # underscores
         cleanstr.gsub!(/[\.\+]/, ' ')
