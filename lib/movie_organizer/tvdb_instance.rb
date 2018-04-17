@@ -24,7 +24,7 @@ module MovieOrganizer
 
     def api_key
       ENV.fetch('TVDB_KEY') do
-        Settings.instance[:movies][:tmdb_key]
+        Settings.instance[:tv_shows][:tvdb_key]
       end
     end
   end

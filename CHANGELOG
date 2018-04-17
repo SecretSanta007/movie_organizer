@@ -1,3 +1,8 @@
+*1.0.2* (April 17, 2018)
+
+* Fix a bug in the TV DB api key setting
+* Fix incorrect README
+
 *1.0.1* (April 17, 2018)
 
 * Temporarily cache the lookup instances for 3rd party service - for reuse during runs

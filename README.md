@@ -44,12 +44,12 @@ Create a file in your home directory named `.movie_organizer.yml` as follows:
 :new_media_directories:
 - "/Users/midwire/media_rips" # <- new media (source) directory
 :tv_shows:
+  :tvdb_key: df08efec9f01985d401a3cfedf5628a2 # <- use your own API key (this one is fake)
   :directory: "/Volumes/Genesis/TV Series" # <- a local directory
 :movies:
   :tmdb_key: df08efec9f01985d401a3cfedf5628a2 # <- use your own API key (this one is fake)
   :directory: ssh://plex_admin@plex.local/media/media1/movies # <- remote directory
 :videos:
-  :tvdb_key: df08efec9f01985d401a3cfedf5628a2 # <- use your own API key (this one is fake)
   :directory: "ssh://plex_admin@plex.local/media/media1/Family Videos" # <- remote directory
 ```
 
