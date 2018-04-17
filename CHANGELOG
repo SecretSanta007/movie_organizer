@@ -1,3 +1,13 @@
+*1.0.1* (April 17, 2018)
+
+* Temporarily cache the lookup instances for 3rd party service - for reuse during runs
+* Refine SSH/SCP remote moving/copying
+* Encapsulate media determination in each type
+* Remove some unused dependencies
+* Refactor all but TV Show specs
+* Add Options singleton
+* Fix some logging issues
+
 *0.1.11* (March 27, 2018)
 
 * Fix bug where it wouldn't always autoload net-scp.

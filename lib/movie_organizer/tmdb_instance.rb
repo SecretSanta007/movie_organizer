@@ -8,7 +8,7 @@ module MovieOrganizer
     attr_reader :title, :year, :matches
 
     def initialize(title, year = nil)
-      Tmdb::Api.key(ENV.fetch('TMDB_KEY')) # configure TMDB API key
+      Tmdb::Api.key(api_key) # configure TMDB API key
       @title = title
       @year  = year
     end
@@ -46,5 +46,13 @@ module MovieOrganizer
     end
     # rubocop:enable Style/RescueModifier
     # rubocop:enable Metrics/AbcSize
+
+    private
+
+    def api_key
+      ENV.fetch('TMDB_KEY') do
+        Settings.instance[:movies][:tmdb_key]
+      end
+    end
   end
 end

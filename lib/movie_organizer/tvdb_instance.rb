@@ -8,7 +8,7 @@ module MovieOrganizer
     attr_reader :title, :year, :match, :tvdb
 
     def initialize(title, year = nil)
-      @tvdb = Tvdbr::Client.new(ENV.fetch('TVDB_KEY'))
+      @tvdb = Tvdbr::Client.new(api_key)
       @title = title
       @year  = year
     end
@@ -18,6 +18,14 @@ module MovieOrganizer
       sleep(0.25)
       return self if @match
       false
+    end
+
+    private
+
+    def api_key
+      ENV.fetch('TVDB_KEY') do
+        Settings.instance[:movies][:tmdb_key]
+      end
     end
   end
 end
