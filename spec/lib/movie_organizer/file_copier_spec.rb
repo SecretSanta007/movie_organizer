@@ -17,11 +17,6 @@ module MovieOrganizer
       test_files[src] = dest.to_s
     end
 
-    before(:all) do
-      # Set copy to true so we don't move files
-      MovieOrganizer::Options.instance.send(:initialize_hash, copy: true)
-    end
-
     before(:each) do
       test_files.each_pair do |_src, dst|
         FileUtils.rm_rf(File.dirname(dst))
@@ -32,6 +27,7 @@ module MovieOrganizer
       context 'with a local target' do
         test_files.each_pair do |src, dst|
           it "copies [#{src}] to [#{dst}]" do
+            expect(File.exist?(src)).to eq(true)
             expect(File.exist?(dst)).to eq(false)
             file_copier = FileCopier.new(src, dst)
             file_copier.copy!

@@ -11,6 +11,7 @@ module MovieOrganizer
       @filename = filename
       @target_file = target_file
       @dry_run = MovieOrganizer.options[:dry_run]
+      @verbose = MovieOrganizer.options[:verbose]
     end
 
     def copy!
@@ -27,9 +28,9 @@ module MovieOrganizer
         return true
       end
       if MovieOrganizer.options[:copy]
-        FileUtils.copy(filename, target_file, noop: @dry_run)
+        FileUtils.copy(filename, target_file, noop: @dry_run, verbose: @verbose)
       else
-        FileUtils.move(filename, target_file, noop: @dry_run)
+        FileUtils.move(filename, target_file, noop: @dry_run, verbose: @verbose)
       end
     end
 

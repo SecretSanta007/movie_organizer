@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 # rubocop:disable Metrics/BlockLength
+# rubocop:disable Metrics/ModuleLength
 module MovieOrganizer
-  RSpec.describe Movie, type: :lib do
+  RSpec.describe Movie, type: :lib, vcr: true do
     include_context 'media_shared'
 
     movies = {
@@ -11,9 +12,9 @@ module MovieOrganizer
         name: 'Coco (2017).mp4'
       },
       'Beetlejuice' => {
-        directory: 'Beetlejuice (1995)',
-        year: '1995',
-        name: 'Beetlejuice (1995).mp4'
+        directory: 'Beetlejuice (1988)',
+        year: '1988',
+        name: 'Beetlejuice (1988).mp4'
       },
       'Justice.League.2017.1080p.BluRay.x264-[YTS.AM]' => {
         year: '2017',
@@ -21,7 +22,7 @@ module MovieOrganizer
       },
       'Jumanji.Welcome.To.The.Jungle.2017.1080p.WEBRip.x264-[YTS.AM]' => {
         year: '2017',
-        name: 'Jumanji Welcome To The Jungle (2017).mp4'
+        name: 'Jumanji: Welcome to the Jungle (2017).mp4'
       },
       'The.Prestige.2006.m720p.x264' => {
         year: '2006',
@@ -32,9 +33,9 @@ module MovieOrganizer
         name: 'Gone in Sixty Seconds (2000).mp4'
       },
       'Rain.Man.Br.YIFY' => {
-        directory: 'Rain Man (2000)',
-        year: '2000',
-        name: 'Rain Man (2000).mp4'
+        directory: 'Rain Man (1988)',
+        year: '1988',
+        name: 'Rain Man (1988).mp4'
       },
       'Stealth (2005) BDRip 720p x264-muxed' => {
         year: '2005',
@@ -44,10 +45,10 @@ module MovieOrganizer
         year: '1973',
         name: 'The Train Robbers (1973).mp4'
       },
-      'waterhorse720p.x264' => {
+      'the.water.horse.720p.x264' => {
         year: '2007',
         directory: 'The Water Horse (2007)',
-        name: 'The Water Horse (2007)'
+        name: 'The Water Horse (2007).mp4'
       }
     }
 
@@ -58,7 +59,9 @@ module MovieOrganizer
           @filepath = create_test_file(filename: filename, extension: 'mp4', dirname: dirname).first
           @expected_filename = data[:name]
           @expected_year = data[:year]
-          @movie = Movie.new(@filepath, default_options)
+          tmdb_instance = Movie.match?(@filepath)
+          @movie = Movie.new(@filepath, tmdb_instance)
+          @movie.process!
         end
 
         context '.processed_filename' do
@@ -71,7 +74,7 @@ module MovieOrganizer
 
         context '.year' do
           it 'returns the correct year' do
-            expect(@movie.year).to eq(@expected_year)
+            expect(@movie.year).to eq(@expected_year.to_i)
           end
         end
       end
@@ -83,7 +86,10 @@ module MovieOrganizer
           filename: 'Foreign+Correspondent+(1940)+1080p', extension: 'mp4'
         ).first
       end
-      let(:movie) { Movie.new(filename, default_options) }
+      let(:movie) do
+        tmdb_instance = Movie.match?(filename)
+        Movie.new(filename, tmdb_instance)
+      end
 
       context '#new' do
         it 'is a Movie' do
@@ -97,7 +103,7 @@ module MovieOrganizer
 
       context '.process!' do
         it 'moves the file to the configured location' do
-          settings = Settings.new
+          settings = Settings.instance
           settings[:movies][:directory] = MovieOrganizer.root.join('tmp', 'files', 'movies').to_s
           settings.save
           movie.process!
@@ -108,3 +114,4 @@ module MovieOrganizer
   end
 end
 # rubocop:enable Metrics/BlockLength
+# rubocop:enable Metrics/ModuleLength

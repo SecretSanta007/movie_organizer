@@ -36,6 +36,7 @@ module MovieOrganizer
     # Set the target filename
     #
     def process!
+      return nil unless tmdb_instance
       tmdb_instance.likely_match
       @target = File.join(target_dir, processed_filename)
       Logger.instance.info("    target file: [#{@target.green.bold}]")
@@ -46,10 +47,12 @@ module MovieOrganizer
     end
 
     def title
+      return sanitize(basename).gsub(/[\s\.\-\_]\(?\s*\d+\s*\)?/, '') unless tmdb_instance
       tmdb_instance.title
     end
 
     def year
+      return nil unless tmdb_instance
       tmdb_instance.year
     end
 

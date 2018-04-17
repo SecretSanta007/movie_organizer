@@ -5,7 +5,6 @@
 require 'colored'
 require 'readline'
 require 'fileutils'
-require 'pry'
 
 require 'movie_organizer/version'
 

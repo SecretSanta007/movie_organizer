@@ -94,6 +94,6 @@ RSpec.configure do |config|
 
   config.before(:each) do
     options = MovieOrganizer::Options.instance
-    options.send(:initialize_hash, dry_run: true, verbose: true, copy: true)
+    options.send(:initialize_hash, dry_run: false, verbose: false, copy: true)
   end
 end
