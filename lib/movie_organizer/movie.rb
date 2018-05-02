@@ -13,7 +13,7 @@ module MovieOrganizer
       def match?(filepath)
         base          = basename(filepath)
         possible_year = possible_year_in_title(base)
-        clean_title   = sanitize(base).gsub(/[\s\.\-\_]\(?\s*\d+\s*\)?/, '')
+        clean_title   = sanitize(base).gsub(/[\s\.\-\_]\(?\d+\s*\)?$/, '')
         tmdb_instance = TmdbInstance.new(clean_title, possible_year)
         return tmdb_instance if tmdb_instance.movie?
         false
@@ -23,7 +23,7 @@ module MovieOrganizer
 
       def possible_year_in_title(title)
         title_with_year = sanitize(title)
-        md = title_with_year.match(/(\d+)/)
+        md = title_with_year.match(/(\d{4}+)/)
         md ? md[1] : nil
       end
     end

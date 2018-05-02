@@ -62,7 +62,7 @@ module MovieOrganizer
       # rubocop:disable Metrics/MethodLength
       def sanitize(str)
         cleanstr = str.dup
-        cleanstr.gsub!(/-\s*-/, '')
+        cleanstr.gsub!(/-\s*/, '')
         cleanstr.gsub!(/\[?1080p\]?/, '')
         cleanstr.gsub!(/m?\[?720p\]?/, '')
         cleanstr.gsub!(/\[[^\]]+\]/, '')
