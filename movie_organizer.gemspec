@@ -1,11 +1,8 @@
 # frozen_string_literal: true
-# coding: utf-8
 
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'movie_organizer/version'
-
-# rubocop:disable Metrics/BlockLength
 Gem::Specification.new do |spec|
   spec.name          = 'movie_organizer'
   spec.version       = MovieOrganizer::VERSION
@@ -22,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_development_dependency 'bundler', '~> 1.7'
+  spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'faker'
   spec.add_development_dependency 'midwire_common', '~> 1.1'
   spec.add_development_dependency 'pry', '~> 0.10'
@@ -40,7 +37,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'net-scp', '~> 1.2'
   spec.add_runtime_dependency 'ruby-filemagic', '~> 0.7.2' # Determine mime types
   spec.add_runtime_dependency 'themoviedb', '~> 1.0'
-  spec.add_runtime_dependency 'trollop'
+  spec.add_runtime_dependency 'optimist'
   # spec.add_runtime_dependency 'tvdbr', '~> 0.2'
 end
-# rubocop:enable Metrics/BlockLength

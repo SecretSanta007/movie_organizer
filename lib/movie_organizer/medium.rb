@@ -2,6 +2,7 @@
 
 require 'filemagic'
 require 'themoviedb'
+require 'pry'
 
 module MovieOrganizer
   # Medium is a class factory for it's derived classes
@@ -18,6 +19,20 @@ module MovieOrganizer
       video/x-msvideo
     ].freeze
     OCTET_STREAM_EXTENSIONS = %w[.3gp .mp4].freeze
+    IGNORED_EXTENSIONS = %w[
+      .aup
+      .dmg
+      .docx
+      .gif
+      .html
+      .jpg
+      .part
+      .pdf
+      .png
+      .vcf
+      .wav
+      .zip
+    ].freeze
 
     class << self
       # Determine if a file is a processable media file
@@ -25,6 +40,7 @@ module MovieOrganizer
       # @return [Boolean] true if file is processable, false if not
       def media_file?(filepath)
         return false if File.directory?(filepath)
+        return false if IGNORED_EXTENSIONS.include?(File.extname(filepath).downcase)
 
         MovieOrganizer.verbose_puts("checking: #{filepath}")
 
@@ -63,8 +79,9 @@ module MovieOrganizer
       def sanitize(str)
         cleanstr = str.dup
         cleanstr.gsub!(/-\s*/, '')
-        cleanstr.gsub!(/\[?1080p\]?/, '')
-        cleanstr.gsub!(/m?\[?720p\]?/, '')
+        cleanstr.gsub!(/\[?1080p\]?/i, '')
+        cleanstr.gsub!(/\[?2160p\]?/i, '')
+        cleanstr.gsub!(/m?\[?720p\]?/i, '')
         cleanstr.gsub!(/\[[^\]]+\]/, '')
         cleanstr.gsub!(/ECI/, '')
         cleanstr.gsub!(/EXTENDED/, '')
@@ -72,14 +89,21 @@ module MovieOrganizer
         cleanstr.gsub!(/ETRG/, '')
         cleanstr.gsub!(/VPPV/, '')
         cleanstr.gsub!(/HQ/, '')
+        cleanstr.gsub!(/\.web\./i, '')
+        cleanstr.gsub!(/\.us\./i, '')
+        cleanstr.gsub!(/x264xlf/i, '')
+        cleanstr.gsub!(/x264trump/i, '')
         cleanstr.gsub!(/x264/, '')
-        cleanstr.gsub!(/AAC/, '')
+        cleanstr.gsub!(/AAC5?\.?1?/, '')
         cleanstr.gsub!(/[\.\s]B[dr]Rip[\.\s]/i, '')
         cleanstr.gsub!(/\.Br\./i, '')
         cleanstr.gsub!(/BluRay/i, '')
+        cleanstr.gsub!(/BOKUTOX/i, '')
+        cleanstr.gsub!(/GAZ/, '')
         cleanstr.gsub!(/HDTV/i, '')
         cleanstr.gsub!(/WEBRip/i, '')
         cleanstr.gsub!(/(Deceit)?\.?YIFY/, '')
+        cleanstr.gsub!(/YTS\.AM/, '')
         cleanstr.gsub!(/-?xvid-?/i, '')
         cleanstr.gsub!(/-?maxspeed/i, '')
         cleanstr.gsub!(/www\.torentz\.3xforum\.ro\.avi/i, '')
@@ -96,6 +120,9 @@ module MovieOrganizer
         cleanstr.gsub!(/[\d\.]+mb/i, '')
         cleanstr.gsub!(/[\d\.]+gb/i, '')
         cleanstr.gsub!(/\s\s+/, ' ')
+        cleanstr.gsub!(/x265/, '')
+        cleanstr.gsub!(/10bit/, '')
+        cleanstr.gsub!(/4k/i, '')
         cleanstr.tr!('_', ' ') # underscores
         cleanstr.gsub!(/[\.\+]/, ' ')
         cleanstr.strip!

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'trollop'
+require 'optimist'
 require 'colored'
 
 module MovieOrganizer
@@ -48,7 +48,7 @@ module MovieOrganizer
 
     # rubocop:disable Metrics/MethodLength
     def collect_args
-      Trollop.options do
+      Optimist.options do
         opt(
           :source_dir,
           'Source directories containing media files. Colon (:) separated.',

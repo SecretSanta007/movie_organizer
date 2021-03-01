@@ -17,13 +17,16 @@ module MovieOrganizer
         sanitized = sanitize(base)
         S_E_EXPRESSIONS.each do |regex|
           next unless (md = sanitized.match(regex))
+
           index = sanitized.index(md[1], 0)
           clean_title = sanitized[0..index - 1].strip
           break
         end
         return false unless clean_title
+
         tvdb_instance = TvdbInstance.new(clean_title)
         return tvdb_instance if tvdb_instance.tv_show?
+
         false
       end
     end
@@ -51,6 +54,7 @@ module MovieOrganizer
     # @return [String] cleaned filename
     def processed_filename
       return nil if should_skip?
+
       if @preserve_episode_name && episode_title
         "#{title} - #{season_and_episode} - #{episode_title}#{extname}"
       else
@@ -59,11 +63,12 @@ module MovieOrganizer
     end
 
     def title
-      tvdb_instance.match.title
+      tvdb_instance.matches.first.name
     end
 
     def season
       return @season unless @season.nil?
+
       season_and_episode
       @season
     end
@@ -84,6 +89,7 @@ module MovieOrganizer
 
     def episode_title
       return @episode_title unless @episode_title.nil?
+
       md = basename.match(/([^-]+)-([^-]+)-([^-]+)/)
       @episode_title = md[3].sub(/#{ext}$/, '').strip if md
       @episode_title
@@ -91,11 +97,13 @@ module MovieOrganizer
 
     def season_and_episode
       return @season_and_episode unless @season_and_episode.nil?
+
       base = basename.gsub(/#{title}[\.\s]*/i, '')
       s_and_e_info = sanitize(base)
       S_E_EXPRESSIONS.each do |regex|
         md = s_and_e_info.match(regex)
         next unless md
+
         @season = md[2].rjust(2, '0')
         @episode = md[3].rjust(2, '0')
         @season_and_episode = "S#{@season}E#{@episode}"

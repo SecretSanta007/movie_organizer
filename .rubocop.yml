@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.6
 
   # Include gemspec and Rakefile
   Include:
@@ -37,9 +37,6 @@ Style/Documentation:
 Style/FileName:
   Enabled: false
 
-Style/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-
 Style/RegexpLiteral:
   Enabled: false
 
@@ -55,11 +52,26 @@ Style/DoubleNegation:
 Style/PerlBackrefs:
   Enabled: false
 
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
 ########################################
 # Lint Cops
 
 Lint/Eval:
   Enabled: false
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
 
 ########################################
 # Metrics Cops
